@@ -190,7 +190,7 @@ gpio_handler:
 
 			//Left shift and set corresponding leds
 			lsl r2, #8
-			str r2, [PA, #GPIO_DOUT]
+			str r2, [PortA, #GPIO_DOUT]
 	
 	/////////////////////////////////////////////////////////////////////////////
 	
