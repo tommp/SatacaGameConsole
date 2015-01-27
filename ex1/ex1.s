@@ -82,7 +82,7 @@
 	      .type   _reset, %function
         .thumb_func
 _reset: 
-		  //CMU (GPIO clock)----------------------------------------------------------
+		  //CMU enable GPIO clock
 		  //Load base address
 	      ldr r0, =CMU_BASE
 
@@ -101,81 +101,70 @@ _reset:
 	      //Store the result in memory adressed by [r0, #CMU_HFPERCLKEN0]
 	      str r1, [r0, #CMU_HFPERCLKEN0]
 
-	      //NVIC----------------------------------------------------------------------
-	      //Load memory address
+	      //NVIC
 	      ldr r0, =ISER0
-
-	      //Load content from address
 	      ldr r1, [r0]
-
 	      //Move wide (due to 8+4 bit space limit for values, 0x802 not representable by rotation)
 	      movw r2, #0x802
-
-	      //Use logical or to preserve untouched bits
 	      orr r1, r1, r2
-
-	      //Store the results
 	      str r1, [r0]
 
-	      //GPIO(Pin configurations) -------------------------------------------------
-	      //Set high drive strength --------------------------------------------------
-	      //Load base address for port A
+	      //GPIO(Pin configurations) set high drive strength
 	      ldr r0, =GPIO_PA_BASE
-
-	      //Create port alias for future refrence
-	      PA .req r0
-
-	      //Load content
+	      PA .req r0 //Create port alias for future refrence
 	      ldr r1, [PA, #GPIO_CTRL]
-
-	      //Apply masking
 	      orr r1, r1, #0x2
-
-	      //Store the results
 	      str r1, [PA, #GPIO_CTRL]
 
-	      //Set port A pins 8 - 15 to output -----------------------------------------
-	      //Load port A modeh content
-	      ldr r1, [PA, #GPIO_MODEH]
-
+	      //Set port A pins 8 - 15 to output
 	      //Load immediate value (representable by rotation, no need for movw and movt)
-	      ldr r2, =0x55555555
-
-	      //Or to preserve, unsure if needed, could probably just set it directly
-	      orr r1, r1, r2
-
-	      //Store the results
+	      ldr r1, =0x55555555
 	      str r1, [PA, #GPIO_MODEH]
 
 
-	      //Set input pins on port C -------------------------------------------------
-	      //Load base address
+	      //Set input pins on port C
 	      ldr r1, =GPIO_PC_BASE
-
-	      //Create port alias for future refrence
-	      PC .req r0
-
-	      //Load content
-	      ldr r2, [PC, #GPIO_CTRL]
-
-	      //Load immediate value (representable by rotation, no need for movw and movt)
-	      ldr r3, =0x33333333
-
-	      //Or to preserve, unsure if needed, could probably just set it directly
-	      orr r2, r2, r3
-
-	      //Store the results
+	      PC .req r1
+	      ldr r2, =0x33333333
 	      str r2, [PC, #GPIO_MODEH]
 
-	      //Enable pullup resistors on input pins -------------------------------------
-	      //Load content
+	      //Enable pullup resistors on input pins
 	      ldr r2, [PC, #GPIO_DOUT]
-
-	      //Or to preserve
 	      orr r2, r2, #0xff
+	      str r2, [PC, #GPIO_DOUT]
 
-	      //Store the results
-	      str r2, [[PC, #GPIO_DOUT]]
+	      //Enable interrupts
+	      ldr r2, =GPIO_BASE
+	      ldr r3, =0x22222222
+	      str r3, [r2, #GPIO_EXTIPSELL]
+
+	      //Set interrupt on 0 -> 1 transition
+	      mov r3, #0xff
+	      ldr r4, [r2, GPIO_EXTIRISE]
+	      orr r4, r4, r3
+	      str r4, [r2, GPIO_EXTIRISE]
+
+	      //Set interrupt on 1 -> 0 transition
+	      ldr r4, [r2, GPIO_EXTIFALL]
+	      orr r4, r4, r3
+	      str r4, [r2, GPIO_EXTIFALL]
+
+	      //Enable interrupt generation
+	      ldr r4, [r2, GPIO_IEN]
+	      orr r4, r4, r3
+	      str r4, [r2, GPIO_IEN]
+
+	      //Enable deep sleep
+	      ldr r2, =SCR
+	      ldr r3, [r2]
+	      mov r4, #0x6
+	      orr r3, r3, r4
+	      str r3, [r2]
+
+	      //Enter deep sleep (wait for interrupt)
+	      wfi
+
+
 
 
 
@@ -191,8 +180,17 @@ _reset:
 	
         .thumb_func
 gpio_handler:  
+			//Clear interrupts
+			ldr r2, =GPIO_BASE
+			ldr r3, [r2, #GPIO_IF]
+			str r3, [r2, #GPIO_IFC]
 
-	      b .  // do nothing
+			//Read input pins
+			ldr r2, [PC, #GPIO_DIN]
+
+			//Left shift and set corresponding leds
+			lsl r2, #8
+			str r2, [PA, #GPIO_DOUT]
 	
 	/////////////////////////////////////////////////////////////////////////////
 	
