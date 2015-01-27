@@ -111,27 +111,27 @@ _reset:
 
 	      //GPIO(Pin configurations) set high drive strength
 	      ldr r0, =GPIO_PA_BASE
-	      PA .req r0 //Create port alias for future refrence
-	      ldr r1, [PA, #GPIO_CTRL]
+	      PortA .req r0 //Create port alias for future refrence
+	      ldr r1, [PortA, #GPIO_CTRL]
 	      orr r1, r1, #0x2
-	      str r1, [PA, #GPIO_CTRL]
+	      str r1, [PortA, #GPIO_CTRL]
 
 	      //Set port A pins 8 - 15 to output
 	      //Load immediate value (representable by rotation, no need for movw and movt)
 	      ldr r1, =0x55555555
-	      str r1, [PA, #GPIO_MODEH]
+	      str r1, [PortA, #GPIO_MODEH]
 
 
 	      //Set input pins on port C
 	      ldr r1, =GPIO_PC_BASE
-	      PC .req r1
+	      PortC .req r1
 	      ldr r2, =0x33333333
-	      str r2, [PC, #GPIO_MODEH]
+	      str r2, [PortC, #GPIO_MODEH]
 
 	      //Enable pullup resistors on input pins
-	      ldr r2, [PC, #GPIO_DOUT]
+	      ldr r2, [PortC, #GPIO_DOUT]
 	      orr r2, r2, #0xff
-	      str r2, [PC, #GPIO_DOUT]
+	      str r2, [PortC, #GPIO_DOUT]
 
 	      //Enable interrupts
 	      ldr r2, =GPIO_BASE
@@ -186,7 +186,7 @@ gpio_handler:
 			str r3, [r2, #GPIO_IFC]
 
 			//Read input pins
-			ldr r2, [PC, #GPIO_DIN]
+			ldr r2, [PortC, #GPIO_DIN]
 
 			//Left shift and set corresponding leds
 			lsl r2, #8
