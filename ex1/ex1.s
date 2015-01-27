@@ -95,7 +95,7 @@ _reset:
 	      //Left shift the 1 by CMU_HFPERCLKEN0_GPIO bits
 	      lsl r2, r2, #CMU_HFPERCLKEN0_GPIO
 
-	      //Use logical or to set the 13'th bit while retaining former status, enabling GPIO clock without affecting others
+	      //Use logical or to set the 13th bit while retaining former status, enabling GPIO clock without affecting others
 	      orr r1, r1, r2
 
 	      //Store the result in memory adressed by [r0, #CMU_HFPERCLKEN0]
