@@ -78,71 +78,63 @@
 	//
 	/////////////////////////////////////////////////////////////////////////////
 
-	      .globl  _reset
-	      .type   _reset, %function
+	.globl  _reset
+	.type   _reset, %function
         .thumb_func
 _reset: 
-		  //CMU enable GPIO clock
-		  //Load base address
-	      ldr r0, =CMU_BASE
+		//CMU enable GPIO clock
+		//Load base address
+		ldr r0, =CMU_BASE
 
-	      //Load content of [r0, #CMU_HFPERCLKEN0] into r1
-	      ldr r1, [r0, #CMU_HFPERCLKEN0]
+		//Load content of [r0, #CMU_HFPERCLKEN0] into r1
+		ldr r1, [r0, #CMU_HFPERCLKEN0]
 
-	      //Move 1 into r2, r2 =0x00000001 
-	      mov r2, #1
+		//Move 1 into r2, r2 =0x00000001 
+		mov r2, #1
 
-	      //Left shift the 1 by CMU_HFPERCLKEN0_GPIO bits
-	      lsl r2, r2, #CMU_HFPERCLKEN0_GPIO
+		//Left shift the 1 by CMU_HFPERCLKEN0_GPIO bits
+		lsl r2, r2, #CMU_HFPERCLKEN0_GPIO
 
-	      //Use logical or to set the 13th bit while retaining former status, enabling GPIO clock without affecting others
-	      orr r1, r1, r2
+		//Use logical or to set the 13th bit while retaining former status, enabling GPIO clock without affecting others
+		orr r1, r1, r2
 
-	      //Store the result in memory adressed by [r0, #CMU_HFPERCLKEN0]
-	      str r1, [r0, #CMU_HFPERCLKEN0]
+		//Store the result in memory adressed by [r0, #CMU_HFPERCLKEN0]
+		str r1, [r0, #CMU_HFPERCLKEN0]
 
-	      //NVIC
-	      ldr r0, =ISER0
-	      ldr r1, [r0]
-	      //Move wide (due to 8+4 bit space limit for values, 0x802 not representable by rotation)
-	      movw r2, #0x802
-	      orr r1, r1, r2
-	      str r1, [r0]
+		//GPIO(Pin configurations) set high drive strength
+		ldr r0, =GPIO_PA_BASE
+		PortA .req r0 //Create port alias for future refrence
+		ldr r1, [PortA, #GPIO_CTRL]
+		mov r1, #0x2 		//old: orr r1, r1, #0x2
+		str r1, [PortA, #GPIO_CTRL]
 
-	      //GPIO(Pin configurations) set high drive strength
-	      ldr r0, =GPIO_PA_BASE
-	      PortA .req r0 //Create port alias for future refrence
-	      ldr r1, [PortA, #GPIO_CTRL]
-	      orr r1, r1, #0x2
-	      str r1, [PortA, #GPIO_CTRL]
+		//Set port A pins 8 - 15 to output
+		//Load immediate value (representable by rotation, no need for movw and movt)
+		mov r1, #0x55555555 //old: ldr r1, =0x55555555
+		str r1, [PortA, #GPIO_MODEH]
 
-	      //Set port A pins 8 - 15 to output
-	      //Load immediate value (representable by rotation, no need for movw and movt)
-	      ldr r1, =0x55555555
-	      str r1, [PortA, #GPIO_MODEH]
+		//Set input pins on port C
+		ldr r1, =GPIO_PC_BASE
+		PortC .req r1
+		ldr r2, =0x33333333
+		str r2, [PortC, #GPIO_MODEH]
 
-	      //Set input pins on port C
-	      ldr r1, =GPIO_PC_BASE
-	      PortC .req r1
-	      ldr r2, =0x33333333
-	      str r2, [PortC, #GPIO_MODEH]
+		//Enable pullup resistors on input pins
+		ldr r2, [PortC, #GPIO_DOUT]
+		orr r2, r2, #0xff
+		str r2, [PortC, #GPIO_DOUT]
 
-	      //Enable pullup resistors on input pins
-	      ldr r2, [PortC, #GPIO_DOUT]
-	      orr r2, r2, #0xff
-	      str r2, [PortC, #GPIO_DOUT]
-        
-              b buttons_loop
+		b buttons_loop
 
-              .thumb_func
+		.thumb_func
 buttons_loop:
-              ldr r4, [PortC, #GPIO_DIN]
-              lsl r4, r4, #8 //Left shift input 8bits
-	      mov r5, #0
-	      eor r4, r4, r5
-	      str r4, [PortA, #GPIO_DOUT] //write back to lights
-	
-              b buttons_loop
+		ldr r4, [PortC, #GPIO_DIN]
+		lsl r4, r4, #8 //Left shift input 8bits
+		mov r5, #0
+		eor r4, r4, r5
+		str r4, [PortA, #GPIO_DOUT] //write back to lights
+
+		b buttons_loop
 
 	
 	/////////////////////////////////////////////////////////////////////////////
