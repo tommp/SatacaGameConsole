@@ -82,6 +82,8 @@
 .type   _reset, %function
 .thumb_func
 _reset: 
+
+/////////////////////////////// GPIO Clock setup ///////////////////////////////
 		//CMU enable GPIO clock
 		//Load base address
 		ldr r0, =CMU_BASE
@@ -101,18 +103,35 @@ _reset:
 		//Store the result in memory adressed by [r0, #CMU_HFPERCLKEN0]
 		str r1, [r0, #CMU_HFPERCLKEN0]
 
-		//NVIC
-		ldr r0, =ISER0
-		//Move wide (due to 8+4 bit space limit for values, 0x802 not representable by rotation)
-		movw r1, #0x802
-		str r1, [r0]
+//////////////////////// Energy efficient measures //////////////////////////
 
-        /*
+        // Enable deep sleep, as gpio uses low frequency clock
+        //Turn off low energy periferals clock LFACLK/LFBCLK
+        mov r1, #0
+        str r1, [r0, #CMU_LFCLKSEL]
+        //enable deepsleep
+		ldr r2, =SCR
+		mov r3, #0x6
+		str r3, [r2]
+
+        
         //Disable ram block 1-3 as we only need block 0.
         ldr r1, =EMU_BASE
         mov r0, #7
         str r0, [r1, #EMU_MEMCTRL]
-        */
+        
+
+        //Set energy mode 3, as this is the cheapest that still supports external pin interrupts
+        ldr r0, =EMU_BASE
+        mov r1, #0
+        str r1, [r0, #EMU_CTRL]
+
+//////////////////////////// Set up Leds and Buttons /////////////////////////////
+		//Configure Nested Vectored Interrupt Controller
+		ldr r0, =ISER0
+		//Move wide (due to 8+4 bit space limit for values, 0x802 not representable by rotation)
+		movw r1, #0x802
+		str r1, [r0]
 
 		//GPIO(Pin configurations) set high drive strength
 		ldr r0, =GPIO_PA_BASE
@@ -125,11 +144,6 @@ _reset:
 		mov r1, #0x55555555
 		str r1, [PortA, #GPIO_MODEH]
 
-		//Set initial value of leds
-		mov r2, #0xf000
-		str r2, [PortA, #GPIO_DOUT]
-
-
 		//Set input pins on port C
 		ldr r1, =GPIO_PC_BASE
 		PortC .req r1
@@ -139,6 +153,8 @@ _reset:
 		//Enable pullup resistors on input pins
 		mov r2, #0xff
 		str r2, [PortC, #GPIO_DOUT]
+
+//////////////////////////// Set up interrupts ////////////////////////////////
 
 		//Enable interrupts
 		ldr r2, =GPIO_BASE
@@ -155,11 +171,6 @@ _reset:
 
 		//Enable interrupt generation
 		str r3, [BaseMain, GPIO_IEN]
-
-		//Enable deep sleep, as gpio uses low frequency clock
-		ldr r3, =SCR
-		mov r4, #0x6
-		str r4, [r3]
 
 		//Enter deep sleep (wait for interrupt)
 		wfi
