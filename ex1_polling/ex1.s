@@ -113,11 +113,15 @@ _reset:
 		mov r1, #0x55555555 //old: ldr r1, =0x55555555
 		str r1, [PortA, #GPIO_MODEH]
 
+ 		//Set pin 9 to high
+		mov r2, #0xFE00
+		str r2, [r1, #GPIO_DOUT]
+
 		//Set input pins on port C
 		ldr r1, =GPIO_PC_BASE
 		PortC .req r1
-		ldr r2, =0x33333333
-		str r2, [PortC, #GPIO_MODEH]
+		mov r2, #0x33333333 //old: ldr r2, =0x33333333
+		str r2, [PortC, #GPIO_MODEL] //old: str r2, [PortC, #GPIO_MODEH]
 
 		//Enable pullup resistors on input pins
 		ldr r2, [PortC, #GPIO_DOUT]
