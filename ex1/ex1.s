@@ -107,6 +107,13 @@ _reset:
 		movw r1, #0x802
 		str r1, [r0]
 
+        /*
+        //Disable ram block 1-3 as we only need block 0.
+        ldr r1, =EMU_BASE
+        mov r0, #7
+        str r0, [r1, #EMU_MEMCTRL]
+        */
+
 		//GPIO(Pin configurations) set high drive strength
 		ldr r0, =GPIO_PA_BASE
 		PortA .req r0 //Create port alias for future refrence
@@ -149,7 +156,7 @@ _reset:
 		//Enable interrupt generation
 		str r3, [BaseMain, GPIO_IEN]
 
-		//Enable deep sleep
+		//Enable deep sleep, as gpio uses low frequency clock
 		ldr r3, =SCR
 		mov r4, #0x6
 		str r4, [r3]
