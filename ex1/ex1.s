@@ -118,6 +118,10 @@ _reset:
 	      mov r1, #0x55555555
 	      str r1, [PortA, #GPIO_MODEH]
 
+	      //Set initial value of leds
+	      mov r2, #0xf000
+	      str r2, [PortA, #GPIO_DOUT]
+
 
 	      //Set input pins on port C
 	      ldr r1, =GPIO_PC_BASE
@@ -177,8 +181,8 @@ gpio_handler:
 			ldr r3, [PortC, #GPIO_DIN]
 
 			//Left shift and set corresponding leds
-			lsl r2, #8
-			str r2, [PortA, #GPIO_DOUT]
+			lsl r3, #8
+			str r3, [PortA, #GPIO_DOUT]
 
 			//Branch to link register
 			bx lr
