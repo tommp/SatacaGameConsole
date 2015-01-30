@@ -127,7 +127,7 @@ _reset:
 	      ldr r1, =GPIO_PC_BASE
 	      PortC .req r1
 	      mov r2, #0x33333333
-	      str r2, [PortC, #GPIO_MODEH]
+	      str r2, [PortC, #GPIO_MODEL]
 
 	      //Enable pullup resistors on input pins
 	      mov r2, #0xff
@@ -191,5 +191,5 @@ gpio_handler:
 	
         .thumb_func
 dummy_handler:  
-        b .  // do nothing
+        bx lr
 
