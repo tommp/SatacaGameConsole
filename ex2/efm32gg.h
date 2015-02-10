@@ -69,6 +69,9 @@
 #define TIMER1_TOP ((volatile uint32_t*)(TIMER1_BASE + 0x1c))
 #define TIMER1_CNT ((volatile uint32_t*)(TIMER1_BASE + 0x24))
 
+#define TIMER1_IEN_INTR (1 << 0)
+#define TIMER1_CMD_START (1 << 0)
+
 // NVIC
 
 #define ISER0 ((volatile uint32_t*)0xe000e100)
@@ -111,6 +114,8 @@
 #define DAC0_CH0DATA  ((volatile uint32_t*)(DAC0_BASE2 + 0x020))
 #define DAC0_CH1DATA  ((volatile uint32_t*)(DAC0_BASE2 + 0x024))
 #define DAC0_COMBDATA ((volatile uint32_t*)(DAC0_BASE2 + 0x028))
+
+#define DAC_CHnCTRL_EN  (1 << 0)
 
 // DMA
 
