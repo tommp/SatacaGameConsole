@@ -16,7 +16,7 @@ void setupTimer(uint16_t period)
   *TIMER1_IEN |= TIMER1_IEN_INTR;
   
   //Start the timer by writing 1 to TIMER1_CMD
-  TIMER1_CMD |= TIMER1_CMD_START;
+  *TIMER1_CMD |= TIMER1_CMD_START;
 }
 
 

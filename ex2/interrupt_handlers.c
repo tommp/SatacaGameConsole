@@ -16,10 +16,25 @@ void __attribute__ ((interrupt)) TIMER1_IRQHandler()
 void __attribute__ ((interrupt)) GPIO_EVEN_IRQHandler() 
 {
     /* TODO handle button pressed event, remember to clear pending interrupt */
+	gpio_handler();
 }
 
 /* GPIO odd pin interrupt handler */
 void __attribute__ ((interrupt)) GPIO_ODD_IRQHandler() 
 {
     /* TODO handle button pressed event, remember to clear pending interrupt */
+	gpio_handler();
+}
+
+void gpio_handler()
+{
+    //Reset GPIO interupts
+    *GPIO_IFC = 0xff;
+
+    //Enables coresponding led on button press
+    uint32_t input = *GPIO_PC_DIN;
+    input = input << 8;
+    input = input ^ 0;
+
+    *GPIO_PA_DOUT = input;
 }
