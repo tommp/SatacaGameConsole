@@ -13,10 +13,13 @@ void setupTimer(uint16_t period)
   *TIMER1_TOP = period;
   
   //Enable timer interrupt generation by writing 1 to TIMER1_IEN
-  *TIMER1_IEN |= TIMER1_IEN_INTR;
+  *TIMER1_IEN |= TIMER1_IEN_INT;
   
   //Start the timer by writing 1 to TIMER1_CMD
   *TIMER1_CMD |= TIMER1_CMD_START;
+  
+  //Enable timer interrupts
+  *ISER0 |= ISER0_TIMER1_EN;
 }
 
 
