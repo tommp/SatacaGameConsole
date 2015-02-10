@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "efm32gg.h"
+#include "interrupt_handlers.h"
 
 /* TIMER1 interrupt handler */
 void __attribute__ ((interrupt)) TIMER1_IRQHandler() 
@@ -26,7 +27,7 @@ void __attribute__ ((interrupt)) GPIO_ODD_IRQHandler()
 	gpio_handler();
 }
 
-void gpio_handler()
+void gpio_handler(void)
 {
     //Reset GPIO interupts
     *GPIO_IFC = 0xff;
@@ -34,7 +35,6 @@ void gpio_handler()
     //Enables coresponding led on button press
     uint32_t input = *GPIO_PC_DIN;
     input = input << 8;
-    input = input ^ 0;
 
     *GPIO_PA_DOUT = input;
 }
