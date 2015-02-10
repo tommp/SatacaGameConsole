@@ -112,6 +112,8 @@
 #define DAC0_CH1DATA  ((volatile uint32_t*)(DAC0_BASE2 + 0x024))
 #define DAC0_COMBDATA ((volatile uint32_t*)(DAC0_BASE2 + 0x028))
 
+#define DAC_CHnCTRL_EN  1
+
 // DMA
 
 #define DMA_BASE 0x400c2000
