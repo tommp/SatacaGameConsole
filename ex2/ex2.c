@@ -3,6 +3,10 @@
 
 #include "efm32gg.h"
 
+#include "gpio.h"
+#include "interrupt_handlers.h"
+
+
 /* 
   TODO calculate the appropriate sample period for the sound wave(s) 
   you want to generate. The core clock (which the timer clock is derived
@@ -22,11 +26,11 @@ int main(void)
 {  
   /* Call the peripheral setup functions */
   setupGPIO();
-  setupDAC();
-  setupTimer(SAMPLE_PERIOD);
+  //setupDAC();
+  //setupTimer(SAMPLE_PERIOD);
   
   /* Enable interrupt handling */
-  setupNVIC();
+  //setupNVIC();
   
   /* TODO for higher energy efficiency, sleep while waiting for interrupts
      instead of infinite loop for busy-waiting
