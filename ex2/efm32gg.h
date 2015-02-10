@@ -69,7 +69,7 @@
 #define TIMER1_TOP ((volatile uint32_t*)(TIMER1_BASE + 0x1c))
 #define TIMER1_CNT ((volatile uint32_t*)(TIMER1_BASE + 0x24))
 
-#define TIMER1_IEN_INTR (1 << 0)
+#define TIMER1_IEN_INT (1 << 0)
 #define TIMER1_CMD_START (1 << 0)
 
 // NVIC
