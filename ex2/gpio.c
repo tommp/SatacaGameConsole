@@ -32,7 +32,7 @@ void setupGPIO(void)
     *GPIO_IEN = 0xff;
     
     /* Enable NVIC for odd and even gpio pins */
-    *ISER0 |= (1 << 11) | (1 << 1);
+    *ISER0 |= ISER0_GPIO_EVEN_EN | ISER0_GPIO_ODD_EN;
 }
 
 
