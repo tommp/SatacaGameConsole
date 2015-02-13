@@ -4,6 +4,10 @@
 #include "efm32gg.h"
 #include "interrupt_handlers.h"
 
+volatile uint32_t counter_val = 0;
+volatile uint32_t sound0 = 0;
+volatile uint32_t sound1 = 0;
+
 /* TIMER1 interrupt handler */
 void __attribute__ ((interrupt)) TIMER1_IRQHandler() 
 {  
@@ -11,6 +15,17 @@ void __attribute__ ((interrupt)) TIMER1_IRQHandler()
     TODO feed new samples to the DAC
     remember to clear the pending interrupt by writing 1 to TIMER1_IFC
   */  
+	//Clear the overflow interrupt flag
+	*TIMER1_IFC |= TIMER1_IFC_OF;
+
+	counter_val++;
+	*GPIO_PA_DOUT = counter_val;
+
+	*DAC0_CH0DATA = sound0;
+	*DAC0_CH1DATA = sound0;
+
+	*TIMER1_TOP = 200;
+	
 }
 
 /* GPIO even pin interrupt handler */
@@ -29,6 +44,8 @@ void __attribute__ ((interrupt)) GPIO_ODD_IRQHandler()
 
 void gpio_handler(void)
 {
+
+    sound0 += 50;
     //Reset GPIO interupts
     *GPIO_IFC = 0xff;
 
