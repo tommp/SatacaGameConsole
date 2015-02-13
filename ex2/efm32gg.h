@@ -71,6 +71,7 @@
 
 #define TIMER1_IEN_INT (1 << 0)
 #define TIMER1_CMD_START (1 << 0)
+#define TIMER1_IFC_OF (1 << 0)
 
 // NVIC
 
