@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "efm32gg.h"
+#include "timer.h"
 
 #define CLOCK_FREQUENCY 14000000
 
@@ -27,6 +28,9 @@ void setupTimer(uint16_t period)
 }
 
 void setupLETimer(uint16_t period){  
+    //Enable the clock for Low Energy Peripherals
+    *CMU_HFCORECLKEN0 |= CMU_HFCORECLKEN0_LETIMER0_EN;
+
     //Enable the low frequency oscilator
     *CMU_OSCENCMD |= CMU_OSCENCMD_LFRCON;
     
@@ -53,8 +57,5 @@ void setupLETimer(uint16_t period){
 
     //Start the Low Energy Timer
     *LETIMER0_CMD |= LETIMER0_CMD_START;
-
-    //Set Top value
-    *LETIMER0_COMP0 = LFCLOCK_FREQUENCY/period;
 }
 
