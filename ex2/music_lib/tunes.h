@@ -1,3 +1,10 @@
+#ifndef TUNES_MUSIC_LIB_H
+#define TUNES_MUSIC_LIB_H
+
+#include <stdlib.h>
+#include <math.h>
+
+//Standard frequencies (approxximated)
 #define A_FREQUENCY 27
 #define B_FREQUENCY 30
 #define C_FREQUENCY	16
@@ -17,6 +24,12 @@
 
 #define TOP_VALUE_REGISTER 0xlolfochizzle
 #define TIME_TICKS_REGISTER 0xchizzlemahnizzle
+
+//imperial march:
+char* letters = "gggebgebg";
+int * times = {500,500,500,500,200,500,500,200,500};
+int length = 9;
+int octave = 3;
 
 //Linked list node for a tune
 typedef struct Tune{
@@ -41,3 +54,5 @@ typedef struct Song{
 int play_tune(Tune* tune);
 int playCurrentAndSetNextTune(Song* song);
 int construct_song(char* notes, int* timers, Song* song, int length, int octave);
+
+#endif

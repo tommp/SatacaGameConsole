@@ -1,5 +1,4 @@
 #include "tunes.h"
-#include <math.h>
 
 int play_tune(Tune* tune){
 
@@ -97,11 +96,12 @@ int playCurrentAndSetNextTune(Song* song) {
 		song->current = NULL;
 #if USE_LET
 	///LOW ENERGY STOP 						:::::::::::::TODO
-#else
-	//NORMAL STOP
 	if(*LETIMER0_STATUS){
 		*LETIMER0_CMD |= LETIMER0_CMD_STOP
 	}
+#else
+	//NORMAL STOP
+
 #endif
 #else
 		//If this was the last tune, set current to NULL
