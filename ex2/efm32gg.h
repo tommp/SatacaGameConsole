@@ -52,10 +52,22 @@
 #define CMU_HFPERCLKEN0  ((volatile uint32_t*)(CMU_BASE2 + 0x044))
 #define CMU_CMD          ((volatile uint32_t*)(CMU_BASE2 + 0x024))
 
+#define CMU_LFCLKSEL 	 ((volatile uint32_t*)(CMU_BASE2 + 0x028))
+#define CMU_LFACLKEN0	 ((volatile uint32_t*)(CMU_BASE2 + 0x058))
+#define CMU_LFAPRESC0	 ((volatile uint32_t*)(CMU_BASE2 + 0x068))
+#define CMU_OSCENCMD	 ((volatile uint32_t*)(CMU_BASE2 + 0x020))
+
 #define CMU2_HFPERCLKEN0_DAC0   (1 << 17)
 #define CMU2_HFPERCLKEN0_PRS    (1 << 15)
 #define CMU2_HFPERCLKEN0_GPIO   (1 << 13)
 #define CMU2_HFPERCLKEN0_TIMER1 (1 << 6)
+
+#define CMU_OSCENCMD_LFXOEN	(1 << 8)
+#define CMU_OSCENCMD_LFRCON	(1 << 6)
+#define CMU_LFACLKSEL_LFRCO 	(1 << 0) 
+#define CMU_LFACLKSEL_LFXO 	(1 << 1)
+#define CMU_LFAPRESC0_LETIMER0_MASK (0b1111 << 8)
+#define CMU_LFACLKEN0_LETIMER0_EN (1 << 2)
 
 #define CMU_HFCORECLKEN0_DMA (1 << 0)
 
@@ -69,9 +81,30 @@
 #define TIMER1_TOP ((volatile uint32_t*)(TIMER1_BASE + 0x1c))
 #define TIMER1_CNT ((volatile uint32_t*)(TIMER1_BASE + 0x24))
 
-#define TIMER1_IEN_INT (1 << 0)
-#define TIMER1_CMD_START (1 << 0)
-#define TIMER1_IFC_OF (1 << 0)
+#define TIMER1_IEN_INT      (1 << 0)
+#define TIMER1_CMD_START    (1 << 0)
+#define TIMER1_IFC_OF       (1 << 0)
+
+// LE TIMER
+
+#define LETIMER0_BASE 0x40082400
+
+#define LETIMER0_CTRL 	((volatile uint32_t*)(LETIMER0_BASE + 0x000))
+#define LETIMER0_CMD 	((volatile uint32_t*)(LETIMER0_BASE + 0x004))
+#define LETIMER0_CNT 	((volatile uint32_t*)(LETIMER0_BASE + 0x00c))
+#define LETIMER0_COMP0 	((volatile uint32_t*)(LETIMER0_BASE + 0x010))
+#define LETIMER0_IF 	((volatile uint32_t*)(LETIMER0_BASE + 0x020))
+#define LETIMER0_IFC 	((volatile uint32_t*)(LETIMER0_BASE + 0x028)) 
+#define LETIMER0_IEN 	((volatile uint32_t*)(LETIMER0_BASE + 0x02c))
+
+#define LETIMER0_CTRL_COMP0TOP              (1 << 9)
+#define LETIMER0_CTRL_REPMODE_FREE_MASK     (0b00 << 0)
+#define LETIMER0_CTRL_REPMODE_ONESHOT_MASK  (0b01 << 0)
+#define LETIMER0_IEN_COMP0                  (1 << 0) 
+#define LETIMER0_CMD_START                  (1 << 0)
+#define LETIMER0_CMD_STOP                   (1 << 1)
+#define LETIMER0_IFC_COMP0                  (1 << 0)
+
 
 // NVIC
 
@@ -86,9 +119,10 @@
 #define IABR0 ((volatile uint32_t*)0xe000e300)
 #define IABR1 ((volatile uint32_t*)0xe000e304)
 
-#define ISER0_TIMER1_EN (1 << 12)
+#define ISER0_TIMER1_EN     (1 << 12)
 #define ISER0_GPIO_EVEN_EN  (1 << 11)
-#define ISER0_GPIO_ODD_EN  (1 << 1)
+#define ISER0_GPIO_ODD_EN   (1 << 1)
+#define ISER0_LETIMER0_EN   (1 << 26)
 
 // IPR
 
@@ -120,7 +154,13 @@
 #define DAC0_CH1DATA  ((volatile uint32_t*)(DAC0_BASE2 + 0x024))
 #define DAC0_COMBDATA ((volatile uint32_t*)(DAC0_BASE2 + 0x028))
 
-#define DAC_CHnCTRL_EN  (1 << 0)
+#define DAC_CHnCTRL_EN  	(1 << 0)
+
+#define DACn_CTRL_SINEMODE_EN       (1 << 1)
+#define DACn_CTRL_OUTPUTMODE_PIN_EN (1 << 5)
+#define DACn_CTRL_PRESC_BIT0        (1 << 16)
+#define DACn_CTRL_PRESC_BIT1	    (1 << 17)
+#define DACn_CTRL_PRESC_BIT2	    (1 << 18)
 
 // DMA
 
