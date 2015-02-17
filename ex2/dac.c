@@ -9,12 +9,10 @@ void setupDAC()
     *CMU_HFPERCLKEN0 |= (1 << 17);
     
     //Prescale DAC clock by writing 0x50010 to DAC0_CTRL
-    *DAC0_CTRL = 0x050010;
-
-    /* Why is 0x050010 written to DAC0_CTRL? 
-	0x050010 = 0b1010000000000010000, the 10msb's are resvered, doing nothing, 
-	and the fourth enables output, see "29.5.1 DACn_CTRL - Control Register" in the referance manual
-    */
+    *DAC0_CTRL |= DACn_CTRL_OUTPUTMODE_PIN_EN | 
+            DACn_CTRL_SINEMODE_EN |
+	    DACn_CTRL_PRESC_BIT0 | 
+            DACn_CTRL_PRESC_BIT2;
     
     //Enable left and right audio channels by writing 1 to DAC0_CH0CTRL and DAC0_CH1CTRL
     *DAC0_CH0CTRL |= DAC_CHnCTRL_EN;
@@ -26,13 +24,13 @@ void setupDAC()
 }
 
 void disableDAC(){
-	//Clear all settings
-	*DAC0_CTRL = 0;
+    //Clear all settings
+    *DAC0_CTRL = 0;
 
-	//Disable left and right audioc hannels
-	*DAC0_CH0CTRL = 0;
-	*DAC0_CH1CTRL = 0;
+    //Disable left and right audioc hannels
+    *DAC0_CH0CTRL = 0;
+    *DAC0_CH1CTRL = 0;
 
-	//Disable the DAC clock
+    //Disable the DAC clock
     *CMU_HFPERCLKEN0 &= ~(1 << 17);
 }
