@@ -40,9 +40,13 @@ int play_tune(Tune* tune){
 
 #if USE_FREE_RUN
 #if USE_LET
-	///LOW ENERGY START, REMEMBER TO CHECK IF ALREADY RUNNING
+	if(!(*LETIMER0_STATUS)){
+		*LETIMER0_CMD |= LETIMER0_CMD_START;
+	}
 #else
-	//NORMAL START
+	if(!(*TIMER1_STATUS)){
+		*TIMER1_CMD |= TIMER1_CMD_START;
+	}
 #endif
 	return 0;
 #else
@@ -57,9 +61,13 @@ int play_tune(Tune* tune){
 	*TIME_TICKS_REGISTER = num_overflows_to_run;
 
 #if USE_LET
-	///LOW ENERGY START, REMEMBER TO CHECK IF ALREADY RUNNING
+	if(!(*LETIMER0_STATUS)){
+		*LETIMER0_CMD |= LETIMER0_CMD_START;
+	}
 #else
-	//NORMAL START
+	if(!(*TIMER1_STATUS)){
+		*TIMER1_CMD |= TIMER1_CMD_START;
+	}
 #endif
 	return 0;
 #endif
@@ -88,9 +96,12 @@ int playCurrentAndSetNextTune(Song* song) {
 #if USE_FREE_RUN
 		song->current = NULL;
 #if USE_LET
-	///LOW ENERGY STOP
+	///LOW ENERGY STOP 						:::::::::::::TODO
 #else
 	//NORMAL STOP
+	if(*LETIMER0_STATUS){
+		*LETIMER0_CMD |= LETIMER0_CMD_STOP
+	}
 #endif
 #else
 		//If this was the last tune, set current to NULL
