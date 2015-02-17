@@ -137,3 +137,10 @@ int construct_song(char* notes, int* timers, Song* song, int length, int octave)
 
 	return 0;
 }
+
+int destroy_song(Song* song) {
+	while(song->next != NULL){
+		free(song->current);
+		song->current = song->next;
+	}
+}

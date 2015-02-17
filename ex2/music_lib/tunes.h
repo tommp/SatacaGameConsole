@@ -34,7 +34,7 @@ int octave = 3;
 //Linked list node for a tune
 typedef struct Tune{
 	//Pointer to the following tune node
-	Tune* next;
+	struct Tune* next;
 	//The note of the tune
 	char note; 
 	//The octave of the tune
@@ -46,13 +46,14 @@ typedef struct Tune{
 //Linked list of tunes representing a song
 typedef struct Song{
 	//Pointer to the first note in the sequence
-	Tune* first;
+	struct Tune* first;
 	//Pointer to the current note (the one to be played)
-	Tune* current;
+	struct Tune* current;
 } Song;
 
 int play_tune(Tune* tune);
 int playCurrentAndSetNextTune(Song* song);
 int construct_song(char* notes, int* timers, Song* song, int length, int octave);
+int destroy_song(Song* song);
 
 #endif
