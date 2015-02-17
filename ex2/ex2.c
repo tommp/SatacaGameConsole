@@ -5,6 +5,8 @@
 
 #include "gpio.h"
 #include "interrupt_handlers.h"
+#include "timer.h"
+#include "dac.h"
 
 
 /* 
@@ -15,11 +17,10 @@
 */
 /* The period between sound samples, in clock cycles */
 #define   SAMPLE_PERIOD   400
+#define   SAMPLE_PERIOD2  32768
 
 /* Declaration of peripheral setup functions */
-void setupTimer(uint32_t period);
 void setupDAC();
-void setupNVIC();
 
 /* Your code will start executing here */
 int main(void) 
@@ -39,17 +40,6 @@ int main(void)
   while(1);
 
   return 0;
-}
-
-void setupNVIC()
-{
-  /* TODO use the NVIC ISERx registers to enable handling of interrupt(s)
-     remember two things are necessary for interrupt handling:
-      - the peripheral must generate an interrupt signal
-      - the NVIC must be configured to make the CPU handle the signal
-     You will need TIMER1, GPIO odd and GPIO even interrupt handling for this
-     assignment.
-  */
 }
 
 /* if other interrupt handlers are needed, use the following names: 
