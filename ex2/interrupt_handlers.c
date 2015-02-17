@@ -24,8 +24,26 @@ void __attribute__ ((interrupt)) TIMER1_IRQHandler()
 	*DAC0_CH0DATA = sound0;
 	*DAC0_CH1DATA = sound0;
 
-	*TIMER1_TOP = 200;
-	
+	*TIMER1_TOP = 20000;
+}
+
+/* LETIMER0 interrupt handler */
+void __attribute__ ((interrupt)) LETIMER0_IRQHandler() 
+{  
+  /*
+    TODO feed new samples to the DAC
+    remember to clear the pending interrupt by writing 1 to TIMER1_IFC
+  */  
+	//Clear the overflow interrupt flag
+	*LETIMER0_IFC |= LETIMER0_IFC_COMP0;
+
+	counter_val++;
+	*GPIO_PA_DOUT = counter_val;
+
+	*DAC0_CH0DATA = sound0;
+	*DAC0_CH1DATA = sound0;
+
+	*TIMER1_TOP = 20000;
 }
 
 /* GPIO even pin interrupt handler */
