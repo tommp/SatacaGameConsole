@@ -27,7 +27,8 @@ int main(void)
   /* Call the peripheral setup functions */
   setupGPIO();
   setupDAC();
-  setupTimer(SAMPLE_PERIOD);
+  //setupTimer(SAMPLE_PERIOD);
+  setupLETimer(SAMPLE_PERIOD);
   
   /* Enable interrupt handling */
   //setupNVIC();
