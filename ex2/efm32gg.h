@@ -57,19 +57,20 @@
 #define CMU_LFAPRESC0	 ((volatile uint32_t*)(CMU_BASE2 + 0x068))
 #define CMU_OSCENCMD	 ((volatile uint32_t*)(CMU_BASE2 + 0x020))
 
-#define CMU2_HFPERCLKEN0_DAC0   (1 << 17)
-#define CMU2_HFPERCLKEN0_PRS    (1 << 15)
-#define CMU2_HFPERCLKEN0_GPIO   (1 << 13)
-#define CMU2_HFPERCLKEN0_TIMER1 (1 << 6)
+#define CMU2_HFPERCLKEN0_DAC0       (1 << 17)
+#define CMU2_HFPERCLKEN0_PRS        (1 << 15)
+#define CMU2_HFPERCLKEN0_GPIO       (1 << 13)
+#define CMU2_HFPERCLKEN0_TIMER1     (1 << 6)
 
-#define CMU_OSCENCMD_LFXOEN	(1 << 8)
-#define CMU_OSCENCMD_LFRCON	(1 << 6)
-#define CMU_LFACLKSEL_LFRCO 	(1 << 0) 
-#define CMU_LFACLKSEL_LFXO 	(1 << 1)
+#define CMU_OSCENCMD_LFXOEN	        (1 << 8)
+#define CMU_OSCENCMD_LFRCON	        (1 << 6)
+#define CMU_LFACLKSEL_LFRCO         (1 << 0) 
+#define CMU_LFACLKSEL_LFXO 	        (1 << 1)
 #define CMU_LFAPRESC0_LETIMER0_MASK (0b1111 << 8)
-#define CMU_LFACLKEN0_LETIMER0_EN (1 << 2)
+#define CMU_LFACLKEN0_LETIMER0_EN   (1 << 2)
 
-#define CMU_HFCORECLKEN0_DMA (1 << 0)
+#define CMU_HFCORECLKEN0_DMA            (1 << 0)
+#define CMU_HFCORECLKEN0_LETIMER0_EN    (1 << 4)
 
 // TIMER1
 
