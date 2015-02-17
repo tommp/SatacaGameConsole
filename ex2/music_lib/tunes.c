@@ -40,7 +40,7 @@ int play_tune(Tune* tune){
 
 #if USE_FREE_RUN
 #if USE_LET
-	///LOW ENERGY START
+	///LOW ENERGY START, REMEMBER TO CHECK IF ALREADY RUNNING
 #else
 	//NORMAL START
 #endif
@@ -57,7 +57,7 @@ int play_tune(Tune* tune){
 	*TIME_TICKS_REGISTER = num_overflows_to_run;
 
 #if USE_LET
-	///LOW ENERGY START
+	///LOW ENERGY START, REMEMBER TO CHECK IF ALREADY RUNNING
 #else
 	//NORMAL START
 #endif
