@@ -16,8 +16,8 @@
   registers are 16 bits.
 */
 /* The period between sound samples, in clock cycles */
-#define   SAMPLE_PERIOD   400
-#define   SAMPLE_PERIOD2  32768
+#define   SAMPLE_RATE   200
+#define   SAMPLE_RATE2  32768
 
 /* Declaration of peripheral setup functions */
 void setupDAC();
@@ -28,8 +28,8 @@ int main(void)
   /* Call the peripheral setup functions */
   setupGPIO();
   setupDAC();
-  //setupTimer(SAMPLE_PERIOD);
-  setupLETimer(SAMPLE_PERIOD);
+  //setupTimer(SAMPLE_RATE);
+  setupLETimer(SAMPLE_RATE);
   
   /* Enable interrupt handling */
   //setupNVIC();

@@ -67,6 +67,8 @@
 #define CMU_LFACLKSEL_LFRCO         (1 << 0) 
 #define CMU_LFACLKSEL_LFXO 	        (1 << 1)
 #define CMU_LFAPRESC0_LETIMER0_MASK (0b1111 << 8)
+#define CMU_LFAPRESC0_LETIMER0_DIV2 (1 << 8)
+
 #define CMU_LFACLKEN0_LETIMER0_EN   (1 << 2)
 
 #define CMU_HFCORECLKEN0_DMA            (1 << 0)
@@ -88,7 +90,7 @@
 
 // LE TIMER
 
-#define LETIMER0_BASE 0x40082400
+#define LETIMER0_BASE 0x40082000
 
 #define LETIMER0_CTRL 	((volatile uint32_t*)(LETIMER0_BASE + 0x000))
 #define LETIMER0_CMD 	((volatile uint32_t*)(LETIMER0_BASE + 0x004))

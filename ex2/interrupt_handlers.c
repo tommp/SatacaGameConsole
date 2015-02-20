@@ -25,7 +25,6 @@ void __attribute__ ((interrupt)) TIMER1_IRQHandler()
 	*DAC0_CH1DATA = sound0;
 
 	*TIMER1_TOP = 20000;
-	*GPIO_PA_DOUT = 0xaaaa;
 }
 
 /* LETIMER0 interrupt handler */
@@ -43,8 +42,7 @@ void __attribute__ ((interrupt)) LETIMER0_IRQHandler()
 	*DAC0_CH0DATA = sound0;
 	*DAC0_CH1DATA = sound0;
 
-	*LETIMER0_COMP0 = 20000;
-	*GPIO_PA_DOUT = 0xaaaa;
+	//*LETIMER0_COMP0 = 5;
 }
 
 /* GPIO even pin interrupt handler */
