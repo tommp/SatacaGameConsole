@@ -59,3 +59,24 @@ void setupLETimer(uint16_t period){
     *LETIMER0_CMD |= LETIMER0_CMD_START;
 }
 
+void setupLETimer2(uint16_t period){ 
+    *CMU_HFCORECLKEN0 |= CMU_HFCORECLKEN0_LETIMER0_EN; /* Enable LE clk */
+    *CMU_LFACLKEN0 |= CMU_LFACLKEN0_LETIMER0_EN; /* Enable LETIMER0 clk */
+    
+    /* 32 kHz clk */
+    *CMU_OSCENCMD |= CMU_OSCENCMD_LFRCON;
+    *CMU_LFCLKSEL |= CMU_LFACLKSEL_LFRCO; /* Set LFRCO as source clk for LFACLK*/
+ 
+    /* Divides the 32 kHz clock by 2^div_clock */
+    *CMU_LFAPRESC0 = (1 << 8); 
+   
+    *LETIMER0_CTRL |= LETIMER0_CTRL_COMP0TOP; /* Set COMP0 as top value */
+    *LETIMER0_COMP0 = 1; /* Set top value */
+ 
+    /* Enable interrupt on underflow */
+    *LETIMER0_IEN |= LETIMER0_IEN_UF;
+   
+    /* Enable handling in the NVIC */
+    *ISER0 |= ISER0_LETIMER0_EN;
+}
+
