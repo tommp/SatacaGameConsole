@@ -84,6 +84,8 @@
 #define TIMER1_TOP ((volatile uint32_t*)(TIMER1_BASE + 0x1c))
 #define TIMER1_CNT ((volatile uint32_t*)(TIMER1_BASE + 0x24))
 
+#define TIMER1_STATUS ((volatile uint32_t*)(TIMER1_BASE + 0x08))
+
 #define TIMER1_IEN_INT      (1 << 0)
 #define TIMER1_CMD_START    (1 << 0)
 #define TIMER1_IFC_OF       (1 << 0)
@@ -99,6 +101,9 @@
 #define LETIMER0_IF 	((volatile uint32_t*)(LETIMER0_BASE + 0x020))
 #define LETIMER0_IFC 	((volatile uint32_t*)(LETIMER0_BASE + 0x028)) 
 #define LETIMER0_IEN 	((volatile uint32_t*)(LETIMER0_BASE + 0x02c))
+
+#define LETIMER0_STATUS ((volatile uint32_t*)(LETIMER0_BASE + 0x008))
+#define LETIMER0_REP0	((volatile uint32_t*)(LETIMER0_BASE + 0x018)) 
 
 #define LETIMER0_CTRL_COMP0TOP              (1 << 9)
 #define LETIMER0_CTRL_REPMODE_FREE_MASK     (0b00 << 0)

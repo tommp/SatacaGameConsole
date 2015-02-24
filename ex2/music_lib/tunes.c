@@ -35,18 +35,12 @@ int play_tune(Tune* tune){
 	}
 
 	int top_value = TIMER_FREQUENCY/tune_frequency;
-	*TOP_VALUE_REGISTER = top_value;
+	*LETIMER0_COMP0 = top_value;
 
 #if USE_FREE_RUN
-#if USE_LET
 	if(!(*LETIMER0_STATUS)){
 		*LETIMER0_CMD |= LETIMER0_CMD_START;
 	}
-#else
-	if(!(*TIMER1_STATUS)){
-		*TIMER1_CMD |= TIMER1_CMD_START;
-	}
-#endif
 	return 0;
 #else
 	int num_overflows_to_run = ((TIMER_FREQUENCY/1000)*(tune->time_to_play_ms))/top_value;
@@ -57,17 +51,11 @@ int play_tune(Tune* tune){
 		num_overflows_to_run = 255;
 	}
 
-	*TIME_TICKS_REGISTER = num_overflows_to_run;
+	*LETIMER0_REP0 = num_overflows_to_run;
 
-#if USE_LET
 	if(!(*LETIMER0_STATUS)){
 		*LETIMER0_CMD |= LETIMER0_CMD_START;
 	}
-#else
-	if(!(*TIMER1_STATUS)){
-		*TIMER1_CMD |= TIMER1_CMD_START;
-	}
-#endif
 	return 0;
 #endif
 	
@@ -94,15 +82,10 @@ int playCurrentAndSetNextTune(Song* song) {
 	else{
 #if USE_FREE_RUN
 		song->current = NULL;
-#if USE_LET
 	///LOW ENERGY STOP 						:::::::::::::TODO
-	if(*LETIMER0_STATUS){
-		*LETIMER0_CMD |= LETIMER0_CMD_STOP
-	}
-#else
-	//NORMAL STOP
-
-#endif
+		if(*LETIMER0_STATUS){
+			*LETIMER0_CMD |= LETIMER0_CMD_STOP
+		}
 #else
 		//If this was the last tune, set current to NULL
 		song->current = NULL;
