@@ -63,68 +63,33 @@ int play_tune(Tune* tune){
 
 
 //TThis should be looped, it plays the next tune in song
-int playCurrentAndSetNextTune(Song* song) {
+int playCurrentAndSetNextTune(Tune* tune, int length, int* current) {
 
 	//If the current song is not finished, play currenttune and set next tne
-	if(song->current != NULL){
-		play_tune(song->current);
+	if(current < length){
+		play_tune(tune[current]);
 	}
 	else{
 		//If it is finished, do nothing and restart
-		song->current = song->first;
+		current = 0;
 		return 0;
 	}
 
 	//If next is not last tune, set next
-	if(song->current->next != NULL){
-		song->current = song->current->next;
+	if(current < length-1){
+		current++;
 	}
 	else{
 #if USE_FREE_RUN
-		song->current = NULL;
+		current = length;
 	///LOW ENERGY STOP 						:::::::::::::TODO
 		if(*LETIMER0_STATUS){
 			*LETIMER0_CMD |= LETIMER0_CMD_STOP
 		}
 #else
 		//If this was the last tune, set current to NULL
-		song->current = NULL;
+		current = length;
 #endif
 	}
 	return 0;
 }
-
-
-//TODO::NO ERROR CHECKING HERE YET!!!
-int construct_song(char* notes, int* timers, Song* song, int length, int octave) {
-
-	song->first = (Tune*)malloc(sizeof(Tune));
-	song->first->note = notes[0];
-	song->first->octave = octave;
-	song->first->time_to_play_ms = timers[0];
-	song->first->next = NULL;
-
-	song->current = song->first;
-
-	for(int i = 1; i < length; i++) {
-		song->current->next = (Tune*)malloc(sizeof(Tune));
-		song->current->next->note = notes[i];
-		song->current->next->octave = octave;
-		song->current->next->time_to_play_ms = timers[i];
-		song->current->next->next = NULL;
-
-		song->current = song->current->next;
-	}
-
-	song->current = song->first;
-
-	return 0;
-}
-
-/*
-int destroy_song(Song* song) {
-	while(song->next != NULL){
-		free(song->current->current);
-		song->current = song->next;
-	}
-}*/
