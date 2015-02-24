@@ -7,9 +7,9 @@
 //Standard frequencies (approxximated)
 #define A_FREQUENCY 27
 #define B_FREQUENCY 30
-#define C_FREQUENCY 16
-#define D_FREQUENCY 18
-#define E_FREQUENCY 20
+#define C_FREQUENCY	16
+#define D_FREQUENCY	18
+#define E_FREQUENCY	20
 #define F_FREQUENCY 22
 #define G_FREQUENCY 24
 
