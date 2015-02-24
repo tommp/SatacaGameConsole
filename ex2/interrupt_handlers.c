@@ -7,9 +7,6 @@
 #include "songs.h"
 
 volatile uint32_t counter_val = 0;
-volatile uint32_t sound0 = 800;
-volatile uint32_t sound1 = 0;
-
 
 /* TIMER1 interrupt handler */
 void __attribute__ ((interrupt)) TIMER1_IRQHandler() 
@@ -33,14 +30,26 @@ void __attribute__ ((interrupt)) TIMER1_IRQHandler()
 /* LETIMER0 interrupt handler */
 void __attribute__ ((interrupt)) LETIMER0_IRQHandler() 
 {  
-  /*
-    TODO feed new samples to the DAC
-  */  
-
 
     if(*LETIMER0_IF &  (1 << 3)){
         *LETIMER0_IFC |= LETIMER0_IFC_REP0;
-        playCurrentAndSetNextTune(imperial_march, imperial_march_length, &imperial_march_current_tune);
+        playCurrentAndSetNextTune(imperial_march, imperial_march_length,        &imperial_march_current_tune);
+    }
+    
+    //TODO::PUT THIS IN A FUNCTION OR SOMETHING
+    if(use_fadeout){
+        if(sound0 <= 0){
+            fade_direction = 1;
+        }
+        else if(sound0 >= soundMAX){
+            fade_direction = 0;
+        }
+        if(fade_direction == 1) {
+            sound0+=fade_inc;
+        }
+        else{
+            sound0-=fade_inc;
+        }
     }
 
 	//Clear the overflow interrupt flag

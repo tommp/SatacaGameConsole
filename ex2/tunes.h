@@ -14,13 +14,9 @@
 #define F_FREQUENCY 22
 #define G_FREQUENCY 24
 
-//If set to 0, expects one-shot mode.
-#define USE_FREE_RUN 0
-
 //Frequency of the timer clock
 #define TIMER_FREQUENCY 32678
 
-//Linked list node for a tune
 typedef struct Tune{
 	//The note of the tune
 	char note; 
@@ -30,9 +26,7 @@ typedef struct Tune{
 	int time_to_play_ms; 
 } Tune;
 
-
-
 void play_tune(volatile Tune* tune);
-void playCurrentAndSetNextTune(volatile Tune** tune,volatile int length,volatile int* current);
+void playCurrentAndSetNextTune(volatile Tune** tune,volatile uint32_t length,volatile uint32_t* current);
 
 #endif

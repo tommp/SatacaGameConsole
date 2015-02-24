@@ -37,11 +37,6 @@ void play_tune(volatile Tune* tune){
 	int top_value = TIMER_FREQUENCY/tune_frequency;
 	*LETIMER0_COMP0 = top_value;
 
-#if USE_FREE_RUN
-	if(!(*LETIMER0_STATUS)){
-		*LETIMER0_CMD |= LETIMER0_CMD_START;
-	}
-#else
 	int num_overflows_to_run = ((TIMER_FREQUENCY/1000)*(tune->time_to_play_ms))/top_value;
 
 	if(num_overflows_to_run <1){
@@ -55,12 +50,11 @@ void play_tune(volatile Tune* tune){
 	if(*LETIMER0_STATUS != 1){
 		*LETIMER0_CMD |= LETIMER0_CMD_START;
 	}
-#endif
 }
 
 
 //TThis should be looped, it plays the next tune in song
-void playCurrentAndSetNextTune(volatile Tune** tune, volatile int length, volatile int* current) {
+void playCurrentAndSetNextTune(volatile Tune** tune, volatile uint32_t length, volatile uint32_t* current) {
 
 	//If the current song is not finished, play currenttune and set next tne
 	if(*current < length){
