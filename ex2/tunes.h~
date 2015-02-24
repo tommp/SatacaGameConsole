@@ -33,6 +33,6 @@ typedef struct Tune{
 
 
 void play_tune(volatile Tune* tune);
-void playCurrentAndSetNextTune(volatile Tune** tune,volatile int length,volatile int* current);
+void playCurrentAndSetNextTune(volatile Tune** tune,volatile  int length,volatile  int* current);
 
 #endif

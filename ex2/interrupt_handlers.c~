@@ -40,7 +40,7 @@ void __attribute__ ((interrupt)) LETIMER0_IRQHandler()
 
     if(*LETIMER0_IF &  (1 << 3)){
         *LETIMER0_IFC |= LETIMER0_IFC_REP0;
-        playCurrentAndSetNextTune(imperial_march, imperial_march_length, &imperial_march_current_tune);
+        playCurrentAndSetNextTune(imperial_march, imperial_march_length, &current_tune);
     }
 
 	//Clear the overflow interrupt flag

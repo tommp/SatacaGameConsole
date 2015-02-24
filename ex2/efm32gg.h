@@ -104,6 +104,7 @@
 
 #define LETIMER0_STATUS ((volatile uint32_t*)(LETIMER0_BASE + 0x008))
 #define LETIMER0_REP0	((volatile uint32_t*)(LETIMER0_BASE + 0x018)) 
+#define LETIMER0_REP1	((volatile uint32_t*)(LETIMER0_BASE + 0x01C)) 
 
 #define LETIMER0_CTRL_COMP0TOP              (1 << 9)
 #define LETIMER0_CTRL_REPMODE_FREE_MASK     (0b00 << 0)
@@ -114,6 +115,7 @@
 #define LETIMER0_CMD_STOP                   (1 << 1)
 #define LETIMER0_IFC_COMP0                  (1 << 0)
 #define LETIMER0_IFC_REP0                   (1 << 3)
+#define LETIMER0_IEN_REP0                   (1 << 3)
 
 
 // NVIC

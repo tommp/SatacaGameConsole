@@ -60,7 +60,7 @@ void play_tune(volatile Tune* tune){
 
 
 //TThis should be looped, it plays the next tune in song
-void playCurrentAndSetNextTune(volatile Tune** tune, volatile int length, volatile int* current) {
+volatile void playCurrentAndSetNextTune(Tune** tune, int length, int* current) {
 
 	//If the current song is not finished, play currenttune and set next tne
 	if(*current < length){

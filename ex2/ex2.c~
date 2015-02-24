@@ -6,6 +6,8 @@
 #include "interrupt_handlers.h"
 #include "timer.h"
 #include "dac.h"
+#include "tunes.h"
+#include "songs.h"
 
 /* 
   TODO calculate the appropriate sample period for the sound wave(s) 

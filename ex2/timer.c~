@@ -59,7 +59,7 @@ void setupLETimer(uint16_t sample_rate){
     //Enable interrupt on compare match 0
     *LETIMER0_IEN |= LETIMER0_IEN_COMP0; 
 
-    *LETIMER0_REP0 |= 0x01;
+    *LETIMER0_REP0 |= 0xff;
 
     //Enable interrupt underflow
     //*LETIMER0_IEN |=LETIMER0_IEN_UF;
