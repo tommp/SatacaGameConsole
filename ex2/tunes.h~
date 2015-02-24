@@ -15,7 +15,7 @@
 #define G_FREQUENCY 24
 
 //If set to 0, expects one-shot mode.
-#define USE_FREE_RUN 1
+#define USE_FREE_RUN 0
 
 //Frequency of the timer clock
 #define TIMER_FREQUENCY 32678

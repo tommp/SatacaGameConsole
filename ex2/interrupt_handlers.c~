@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "tunes.h"
+#include "music_lib/tunes.h"
 #include "efm32gg.h"
 #include "interrupt_handlers.h"
 

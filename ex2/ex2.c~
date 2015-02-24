@@ -1,7 +1,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "tunes.h"
+
 #include "efm32gg.h"
+
 #include "gpio.h"
 #include "interrupt_handlers.h"
 #include "timer.h"

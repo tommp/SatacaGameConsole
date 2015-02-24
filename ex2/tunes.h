@@ -3,27 +3,22 @@
 
 #include <stdlib.h>
 #include <math.h>
+#include "efm32gg.h"
 
 //Standard frequencies (approxximated)
 #define A_FREQUENCY 27
 #define B_FREQUENCY 30
-#define C_FREQUENCY	16
-#define D_FREQUENCY	18
-#define E_FREQUENCY	20
+#define C_FREQUENCY 16
+#define D_FREQUENCY 18
+#define E_FREQUENCY 20
 #define F_FREQUENCY 22
 #define G_FREQUENCY 24
 
 //If set to 0, expects one-shot mode.
 #define USE_FREE_RUN 0
 
-//Set to one if using low energy timer
-#define USE_LET 0
-
 //Frequency of the timer clock
 #define TIMER_FREQUENCY 32678
-
-#define TOP_VALUE_REGISTER 0xlolfochizzle
-#define TIME_TICKS_REGISTER 0xchizzlemahnizzle
 
 
 //Linked list node for a tune

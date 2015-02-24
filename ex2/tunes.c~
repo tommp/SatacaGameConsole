@@ -1,28 +1,28 @@
 #include "tunes.h"
 
 int play_tune(Tune* tune){
-
+    int tune_frequency = 0;
 	switch(tune->note){
 		case 'a':
-			int tune_frequency = A_FREQUENCY*(pow(2,tune->octave));
+			tune_frequency = A_FREQUENCY*(pow(2,tune->octave));
 			break;
 		case 'b':
-			int tune_frequency = B_FREQUENCY*(pow(2,tune->octave));
+			tune_frequency = B_FREQUENCY*(pow(2,tune->octave));
 			break;
 		case 'c':
-			int tune_frequency = C_FREQUENCY*(pow(2,tune->octave));
+			tune_frequency = C_FREQUENCY*(pow(2,tune->octave));
 			break;
 		case 'd':
-			int tune_frequency = D_FREQUENCY*(pow(2,tune->octave));
+			tune_frequency = D_FREQUENCY*(pow(2,tune->octave));
 			break;
 		case 'e':
-			int tune_frequency = E_FREQUENCY*(pow(2,tune->octave));
+			tune_frequency = E_FREQUENCY*(pow(2,tune->octave));
 			break;
 		case 'f':
-			int tune_frequency = F_FREQUENCY*(pow(2,tune->octave));
+			tune_frequency = F_FREQUENCY*(pow(2,tune->octave));
 			break;
 		case 'g':
-			int tune_frequency = G_FREQUENCY*(pow(2,tune->octave));
+			tune_frequency = G_FREQUENCY*(pow(2,tune->octave));
 			break;
 		default:
 			return -1;
@@ -30,7 +30,7 @@ int play_tune(Tune* tune){
 
 	if(tune_frequency < 20) {
 		tune_frequency = 20;
-	} else if(true_frequency > 20000){
+	} else if(tune_frequency > 20000){
 		tune_frequency = 20000;
 	}
 
