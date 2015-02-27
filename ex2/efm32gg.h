@@ -115,6 +115,7 @@
 #define LETIMER0_CMD_STOP                   (1 << 1)
 #define LETIMER0_IFC_COMP0                  (1 << 0)
 #define LETIMER0_IFC_REP0                   (1 << 3)
+#define LETIMER0_IF_REP0                    (1 << 3)
 #define LETIMER0_IEN_REP0                   (1 << 3)
 
 
