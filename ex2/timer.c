@@ -61,9 +61,6 @@ void setupLETimer(uint16_t sample_rate){
 
     *LETIMER0_REP0 |= 0x01;
 
-    //Enable interrupt underflow
-    //*LETIMER0_IEN |=LETIMER0_IEN_UF;
-
     //Enable interrupt repeat
     *LETIMER0_IEN |=LETIMER0_IEN_REP0;
 
