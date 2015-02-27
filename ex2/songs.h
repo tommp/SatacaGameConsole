@@ -13,18 +13,18 @@ volatile Note g400ms4 = { .note = 'g', .octave = 4, .time_to_play_ms = 400 };
 volatile Note e400ms4 = { .note = 'e', .octave = 4, .time_to_play_ms = 400 };
 volatile Note c800ms3 = { .note = 'a', .octave = 3, .time_to_play_ms = 800 };
 
-volatile Note b500ms5 = { .note = 'b', .octave = 5, .time_to_play_ms = 500 };
-volatile Note d300ms6 = { .note = 'd', .octave = 6, .time_to_play_ms = 300 };
-volatile Note a600ms5 = { .note = 'a', .octave = 5, .time_to_play_ms = 600 };
-volatile Note a600ms6 = { .note = 'a', .octave = 6, .time_to_play_ms = 600 };
+volatile Note b800ms5 = { .note = 'b', .octave = 5, .time_to_play_ms = 800 };
+volatile Note d600ms6 = { .note = 'd', .octave = 6, .time_to_play_ms = 600 };
+volatile Note a2000ms5 = { .note = 'a', .octave = 5, .time_to_play_ms = 2000 };
+volatile Note a1100ms6 = { .note = 'a', .octave = 6, .time_to_play_ms = 2000 };
 
 volatile Note g200ms5 = { .note = 'g', .octave = 5, .time_to_play_ms = 200 };
-volatile Note g400ms6 = { .note = 'g', .octave = 6, .time_to_play_ms = 400 };
+volatile Note g700ms6 = { .note = 'g', .octave = 6, .time_to_play_ms = 700 };
 volatile Note a200ms5 = { .note = 'a', .octave = 5, .time_to_play_ms = 200 };
 
-volatile Note d600ms6 = { .note = 'd', .octave = 6, .time_to_play_ms = 600 };
-volatile Note c200ms6 = { .note = 'c', .octave = 6, .time_to_play_ms = 200 };
-volatile Note b200ms5 = { .note = 'b', .octave = 5, .time_to_play_ms = 200 };
+volatile Note d900ms6 = { .note = 'd', .octave = 6, .time_to_play_ms = 900 };
+volatile Note c500ms6 = { .note = 'c', .octave = 6, .time_to_play_ms = 500 };
+volatile Note b500ms5 = { .note = 'b', .octave = 5, .time_to_play_ms = 500 };
 //SONGS
 /*
 B D A G A B D A 
@@ -36,8 +36,8 @@ C B A B A E
 D C B C B G C G
 */
 // Zeldas lullaby
-volatile Note* zeldas_lullaby[16] = {&b500ms5, &d300ms6, &a600ms5, &g200ms5, &a200ms5, &b500ms5, &d300ms6, &a600ms5, 
-									&b500ms5, &d300ms6, &a600ms6, &g400ms6, &d600ms6, &c200ms6, &b200ms5, &a600ms5};
+volatile Note* zeldas_lullaby[16] = {&b800ms5, &d600ms6, &a2000ms5, &g200ms5, &a200ms5, &b800ms5, &d600ms6, &a2000ms5, 
+									&b800ms5, &d600ms6, &a1100ms6, &g700ms6, &d900ms6, &c500ms6, &b500ms5, &a2000ms5};
 volatile uint32_t zeldas_lullaby_length = 16;
 volatile uint32_t zeldas_lullaby_current_note = 0;
 volatile uint8_t use_zeldas_lullaby_fadeout = 0;
