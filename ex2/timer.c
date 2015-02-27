@@ -47,7 +47,7 @@ void setupLETimer(uint16_t sample_rate){
     //Make the value in comp0 the top value
     *LETIMER0_CTRL |= LETIMER0_CTRL_COMP0TOP;
 
-    //Set LETimer in free mode (run until stopped)
+    //Set LETimer in one shot mode
     *LETIMER0_CTRL |= LETIMER0_CTRL_REPMODE_ONESHOT_MASK;
 
     //Write the period to register LETIMER0_COMP0
