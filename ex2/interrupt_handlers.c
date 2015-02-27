@@ -30,35 +30,31 @@ void __attribute__ ((interrupt)) TIMER1_IRQHandler()
 /* LETIMER0 interrupt handler */
 void __attribute__ ((interrupt)) LETIMER0_IRQHandler() 
 {  
-    // Check if the counter has reached zero //TODO:: Is this nececary?
+    // Check for rep0 underflow
     if(*LETIMER0_IF &  LETIMER0_IF_REP0){
         // Clear interrupt flag
         *LETIMER0_IFC |= LETIMER0_IFC_REP0;
 
-        playCurrentAndSetNextTune(imperial_march, imperial_march_length, &imperial_march_current_tune);
-    }
-    
-    //TODO::PUT THIS IN A FUNCTION OR SOMETHING
-    if(use_fadeout){
-        if(sound0 <= 0){
-            fade_direction = 1;
-        }
-        else if(sound0 >= soundMAX){
-            fade_direction = 0;
-        }
-        if(fade_direction == 1) {
-            sound0+=fade_inc;
-        }
-        else{
-            sound0-=fade_inc;
+        switch(song_to_use){
+            case 0:
+                playCurrentAndSetNextTune(wallhit, wallhit_length, &wallhit_current_tone);
+                use_fadeout = use_wallhit_fadeout;
+                break;
+            case 1:
+                playCurrentAndSetNextTune(shoot, shoot_length, &shoot_current_tone);
+                use_fadeout = use_shoot_fadeout;
+                break;
+            default:   
+                break;
         }
     }
+    set_fadeout(use_fadeout);
 
 	//Clear the overflow interrupt flag
 	*LETIMER0_IFC |= LETIMER0_IFC_COMP0;
     
 	counter_val++;
-	*GPIO_PA_DOUT = counter_val;
+	//*GPIO_PA_DOUT = counter_val;
 
     int rem = counter_val % 2;
     if (rem == 1) {
@@ -99,6 +95,27 @@ void gpio_handler(void)
 
     //Enables coresponding led on button press
     uint32_t input = *GPIO_PC_DIN;
+
+
+    if(!(*GPIO_PC_DIN & (1 << 0))){
+        song_to_use = 0;
+    }else if(!(*GPIO_PC_DIN & (1 << 1))){
+        song_to_use = 1;
+    }else if(!(*GPIO_PC_DIN & (1 << 2))){
+        song_to_use = 2;
+    }else if(!(*GPIO_PC_DIN & (1 << 3))){
+        song_to_use = 3;
+    }else if(!(*GPIO_PC_DIN & (1 << 4))){
+        song_to_use = 4;
+    }else if(!(*GPIO_PC_DIN & (1 << 5))){
+        song_to_use = 5;
+    }else if(!(*GPIO_PC_DIN & (1 << 6))){
+        song_to_use = 6;
+    }else if(!(*GPIO_PC_DIN & (1 << 7))){
+        song_to_use = 7;
+    }
+
+
     input = input << 8;
 
     *GPIO_PA_DOUT = input;
