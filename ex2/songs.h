@@ -1,43 +1,37 @@
 #ifndef SONGS_H
 #define SONGS_H
 
-enum songs{
-	
-
-
-}
-
 
 //TUNES
 
-volatile Tune g500ms = { .note = 'g', .octave = 4, .time_to_play_ms = 500 };
-volatile Tune e500ms = { .note = 'e', .octave = 4, .time_to_play_ms = 300 };
-volatile Tune b200ms = { .note = 'b', .octave = 4, .time_to_play_ms = 200 };
-volatile Tune g1000ms = { .note = 'b', .octave = 5, .time_to_play_ms = 1000 };
+volatile Note g500ms = { .note = 'g', .octave = 4, .time_to_play_ms = 500 };
+volatile Note e500ms = { .note = 'e', .octave = 4, .time_to_play_ms = 300 };
+volatile Note b200ms = { .note = 'b', .octave = 4, .time_to_play_ms = 200 };
+volatile Note g1000ms = { .note = 'b', .octave = 5, .time_to_play_ms = 1000 };
 
-volatile Tune g400ms = { .note = 'g', .octave = 4, .time_to_play_ms = 400 };
-volatile Tune e400ms = { .note = 'e', .octave = 4, .time_to_play_ms = 400 };
-volatile Tune c800ms = { .note = 'a', .octave = 3, .time_to_play_ms = 800 };
+volatile Note g400ms = { .note = 'g', .octave = 4, .time_to_play_ms = 400 };
+volatile Note e400ms = { .note = 'e', .octave = 4, .time_to_play_ms = 400 };
+volatile Note c800ms = { .note = 'a', .octave = 3, .time_to_play_ms = 800 };
 
 //SONGS
 
 //Imperial march
-volatile Tune* imperial_march[9] = {&g500ms, &g500ms, &g500ms, &e500ms, &b200ms, &g500ms, &e500ms, &b200ms, &g500ms};
+volatile Note* imperial_march[9] = {&g500ms, &g500ms, &g500ms, &e500ms, &b200ms, &g500ms, &e500ms, &b200ms, &g500ms};
 volatile uint32_t imperial_march_length = 9;
-volatile uint32_t imperial_march_current_tone = 0;
+volatile uint32_t imperial_march_current_note = 0;
 volatile uint8_t use_imperial_march_fadeout = 0;
 //SOUNDS
 
 //Shoot
-volatile Tune* shoot[1] = {&g1000ms};
+volatile Note* shoot[1] = {&g1000ms};
 volatile uint32_t shoot_length = 1;
-volatile uint32_t shoot_current_tone = 0;
+volatile uint32_t shoot_current_note = 0;
 volatile uint8_t use_shoot_fadeout = 0;
 
 //Wallhit
-volatile Tune* wallhit[3] = {&g400ms, &e400ms, &c800ms};
+volatile Note* wallhit[3] = {&g400ms, &e400ms, &c800ms};
 volatile uint32_t wallhit_length = 3;
-volatile uint32_t wallhit_current_tone = 0;
+volatile uint32_t wallhit_current_note = 0;
 volatile uint8_t use_wallhit_fadeout = 1;
 
 //OPTIONS TODO::SET TO UINT8 WHERE POSSIBLE

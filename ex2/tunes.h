@@ -17,16 +17,16 @@
 //Frequency of the timer clock
 #define TIMER_FREQUENCY 32678
 
-typedef struct Tune{
+typedef struct Note{
 	//The note of the tune
 	char note; 
 	//The octave of the tune
 	int octave;	
 	//Determines time to play the tune (in miliseconds)
 	int time_to_play_ms; 
-} Tune;
+} Note;
 
-void play_tune(volatile Tune* tune);
-void playCurrentAndSetNextTune(volatile Tune** tune,volatile uint32_t length,volatile uint32_t* current);
+//static void _play_single_note(volatile Note* note);
+void tunes_play_next_note(volatile Note** note,volatile uint32_t length,volatile uint32_t* current);
 
 #endif

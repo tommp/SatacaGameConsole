@@ -37,11 +37,11 @@ void __attribute__ ((interrupt)) LETIMER0_IRQHandler()
 
         switch(song_to_use){
             case 0:
-                playCurrentAndSetNextTune(wallhit, wallhit_length, &wallhit_current_tone);
+                tunes_play_next_note(wallhit, wallhit_length, &wallhit_current_note);
                 use_fadeout = use_wallhit_fadeout;
                 break;
             case 1:
-                playCurrentAndSetNextTune(shoot, shoot_length, &shoot_current_tone);
+                tunes_play_next_note(shoot, shoot_length, &shoot_current_note);
                 use_fadeout = use_shoot_fadeout;
                 break;
             default:   
