@@ -48,7 +48,10 @@ void __attribute__ ((interrupt)) LETIMER0_IRQHandler()
                 tunes_play_next_note(zeldas_lullaby, zeldas_lullaby_length, &zeldas_lullaby_current_note);
                 use_fadeout = use_zeldas_lullaby_fadeout;
                 break;
-
+            case 3:
+                tunes_play_next_note(imperial_march, imperial_march_length, &imperial_march_current_note);
+                use_fadeout = use_imperial_march_fadeout;
+                break;
             default:   
                 break;
         }
