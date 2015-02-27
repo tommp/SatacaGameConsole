@@ -30,10 +30,12 @@ void __attribute__ ((interrupt)) TIMER1_IRQHandler()
 /* LETIMER0 interrupt handler */
 void __attribute__ ((interrupt)) LETIMER0_IRQHandler() 
 {  
-
-    if(*LETIMER0_IF &  (1 << 3)){
+    // Check if the counter has reached zero //TODO:: Is this nececary?
+    if(*LETIMER0_IF &  LETIMER0_IF_REP0){
+        // Clear interrupt flag
         *LETIMER0_IFC |= LETIMER0_IFC_REP0;
-        playCurrentAndSetNextTune(imperial_march, imperial_march_length,        &imperial_march_current_tune);
+
+        playCurrentAndSetNextTune(imperial_march, imperial_march_length, &imperial_march_current_tune);
     }
     
     //TODO::PUT THIS IN A FUNCTION OR SOMETHING
