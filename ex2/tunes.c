@@ -1,4 +1,5 @@
 #include "tunes.h"
+#include "timer.h"
 #include "dac.h"
 
 static void _play_single_note(volatile Note* note){
@@ -70,5 +71,6 @@ void tunes_play_next_note(volatile Note** note, volatile uint32_t length, volati
 		//If it is finished, do nothing and restart
 		*current = 0;
         dac_disable();
+        timer_LE_stop();
 	}
 }
