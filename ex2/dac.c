@@ -2,8 +2,9 @@
 #include <stdbool.h>
 
 #include "efm32gg.h"
+#include "dac.h"
 
-void setupDAC(void)
+void dac_enable(void)
 {
     //Enable the DAC clock by setting bit 17 in CMU_HFPERCLKEN0
     *CMU_HFPERCLKEN0 |= (1 << 17);
@@ -19,10 +20,9 @@ void setupDAC(void)
     
     //Write a continuous stream of samples to the DAC data registers, DAC0_CH0DATA and DAC0_CH1DATA, for example from a timer interrupt
     //TODO
-    
 }
 
-void disableDAC(){
+void dac_disable(){
     //Clear all settings
     *DAC0_CTRL = 0;
 
