@@ -6,6 +6,7 @@
 #include "interrupt_handlers.h"
 #include "songs.h"
 #include "dac.h"
+#include "timer.h"
 
 volatile uint32_t counter_val = 0;
 
@@ -38,19 +39,27 @@ void __attribute__ ((interrupt)) LETIMER0_IRQHandler()
 
         switch(song_to_use){
             case 0:
-                tunes_play_next_note(wallhit, wallhit_length, &wallhit_current_note);
+                tunes_play_next_note(wallhit, 
+                        wallhit_length, 
+                        &wallhit_current_note);
                 use_fadeout = use_wallhit_fadeout;
                 break;
             case 1:
-                tunes_play_next_note(shoot, shoot_length, &shoot_current_note);
+                tunes_play_next_note(shoot, 
+                        shoot_length, 
+                        &shoot_current_note);
                 use_fadeout = use_shoot_fadeout;
                 break;
             case 2:
-                tunes_play_next_note(zeldas_lullaby, zeldas_lullaby_length, &zeldas_lullaby_current_note);
+                tunes_play_next_note(zeldas_lullaby, 
+                        zeldas_lullaby_length, 
+                        &zeldas_lullaby_current_note);
                 use_fadeout = use_zeldas_lullaby_fadeout;
                 break;
             case 3:
-                tunes_play_next_note(imperial_march, imperial_march_length, &imperial_march_current_note);
+                tunes_play_next_note(imperial_march, 
+                        imperial_march_length, 
+                        &imperial_march_current_note);
                 use_fadeout = use_imperial_march_fadeout;
                 break;
             default:   
@@ -97,8 +106,9 @@ void gpio_handler(void)
 {
     
     //Start the Low Energy Timer
-    *LETIMER0_CMD |= LETIMER0_CMD_START;
-    *LETIMER0_REP0 |= 0x01;
+    timer_LE_start();
+    timer_LE_set_repeat_counter(1);
+
     //Reset GPIO interupts
     *GPIO_IFC = 0xff;
 
