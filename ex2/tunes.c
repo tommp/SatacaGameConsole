@@ -1,4 +1,5 @@
 #include "tunes.h"
+#include "dac.h"
 
 static void _play_single_note(volatile Note* note){
     int note_frequency = 0;
@@ -55,6 +56,10 @@ static void _play_single_note(volatile Note* note){
 
 //This should be looped, it plays the next note in song
 void tunes_play_next_note(volatile Note** note, volatile uint32_t length, volatile uint32_t* current) {
+    
+    if(*current == 0){
+        dac_enable();
+    }
 
 	//If the current song is not finished, play currentnote and set next tne
 	if(*current < length){
@@ -64,5 +69,6 @@ void tunes_play_next_note(volatile Note** note, volatile uint32_t length, volati
 	else{
 		//If it is finished, do nothing and restart
 		*current = 0;
+        dac_disable();
 	}
 }
