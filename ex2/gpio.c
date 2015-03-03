@@ -26,7 +26,7 @@ void setupGPIO(void)
     *GPIO_EXTIFALL = 0xff;
 
     /* Enable triggering of ext.int on pin 0-8 on rising edge. */
-    *GPIO_EXTIRISE = 0xff;
+    //*GPIO_EXTIRISE = 0xff;
 
     /* Enable external interrupt from pin 0-8 */
     *GPIO_IEN = 0xff;
