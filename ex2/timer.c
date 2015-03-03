@@ -49,7 +49,7 @@ void timer_LE_enable(){
     //Set LETimer in one shot mode
     *LETIMER0_CTRL |= LETIMER0_CTRL_REPMODE_ONESHOT_MASK;
 
-    //Write the period to register LETIMER0_COMP0
+    //Write a period to register LETIMER0_COMP0
     *LETIMER0_COMP0 = 1; 
 
     //Enable LETimer interrupts
@@ -58,6 +58,7 @@ void timer_LE_enable(){
     //Enable interrupt on compare match 0
     *LETIMER0_IEN |= LETIMER0_IEN_COMP0; 
 
+    //Set repeat counter to legal value
     *LETIMER0_REP0 |= 0x01;
 
     //Enable interrupt repeat
