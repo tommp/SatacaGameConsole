@@ -15,18 +15,18 @@
 void setupDAC();
 
 /* Your code will start executing here */
-int main(void) 
-{  
-  /* Call the peripheral setup functions */
-  setupGPIO();
-  //timer_enable(SAMPLE_RATE);
-  timer_LE_enable();
- 
-  
-  *SCR = 6;
-  __asm("WFI");
+int main(void) {  
 
-  while(1);
+    /* Call the peripheral setup functions */
+    setupGPIO();
+    //timer_enable(SAMPLE_RATE);
+    timer_LE_enable();
 
-  return 0;
+    /* Go to sleep */
+    *SCR = 6;
+    __asm("WFI");
+
+    while(1);
+
+    return 0;
 }

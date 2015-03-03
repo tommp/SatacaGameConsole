@@ -13,16 +13,14 @@ volatile uint32_t counter_val = 0;
 /* TIMER1 interrupt handler */
 void __attribute__ ((interrupt)) TIMER1_IRQHandler() 
 {  
-  /*
-    TODO feed new samples to the DAC
-    remember to clear the pending interrupt by writing 1 to TIMER1_IFC
-  */  
 	//Clear the overflow interrupt flag
 	*TIMER1_IFC |= TIMER1_IFC_OF;
 
+    // Show button pushes on leds
 	counter_val++;
 	*GPIO_PA_DOUT = counter_val;
 
+    // Feed signals to the DAC
 	*DAC0_CH0DATA = sound0;
 	*DAC0_CH1DATA = sound0;
 
@@ -91,28 +89,28 @@ void __attribute__ ((interrupt)) LETIMER0_IRQHandler()
 /* GPIO even pin interrupt handler */
 void __attribute__ ((interrupt)) GPIO_EVEN_IRQHandler() 
 {
-    /* TODO handle button pressed event, remember to clear pending interrupt */
+    // Handle button pressed event
 	gpio_handler();
 }
 
 /* GPIO odd pin interrupt handler */
 void __attribute__ ((interrupt)) GPIO_ODD_IRQHandler() 
 {
-    /* TODO handle button pressed event, remember to clear pending interrupt */
+    // Handle button pressed event
 	gpio_handler();
 }
 
 void gpio_handler(void)
 {
     
-    //Start the Low Energy Timer
+    // Start the Low Energy Timer
     timer_LE_start();
     timer_LE_set_repeat_counter(1);
 
-    //Reset GPIO interupts
+    // Reset GPIO interupts
     *GPIO_IFC = 0xff;
 
-    //Enables coresponding led on button press
+    // Enables coresponding led on button press
     uint32_t input = *GPIO_PC_DIN;
 
 
