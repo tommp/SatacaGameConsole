@@ -5,6 +5,7 @@
 #include "efm32gg.h"
 #include "interrupt_handlers.h"
 #include "songs.h"
+#include "dac.h"
 
 volatile uint32_t counter_val = 0;
 
