@@ -22,7 +22,7 @@ void dac_enable(void)
     //TODO
 }
 
-void dac_disable(){
+void dac_disable(void){
     //Clear all settings
     *DAC0_CTRL = 0;
 
