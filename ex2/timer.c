@@ -27,7 +27,7 @@ void timer_enable(uint16_t sample_rate)
 }
 
 void timer_LE_enable(){  
-    //Enable the clock for Low Energy Peripherals
+    //Enable the clock the for Low Energy Peripherals bus
     *CMU_HFCORECLKEN0 |= CMU_HFCORECLKEN0_LETIMER0_EN;
 
     //Enable the low frequency oscilator
@@ -50,7 +50,7 @@ void timer_LE_enable(){
     *LETIMER0_CTRL |= LETIMER0_CTRL_REPMODE_ONESHOT_MASK;
 
     //Write the period to register LETIMER0_COMP0
-    *LETIMER0_COMP0 = LFCLOCK_FREQUENCY/500; 
+    *LETIMER0_COMP0 = 1; 
 
     //Enable LETimer interrupts
     *ISER0 |= ISER0_LETIMER0_EN;
