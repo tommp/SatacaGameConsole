@@ -5,11 +5,10 @@
 #include "timer.h"
 
 #define CLOCK_FREQUENCY 14000000
-
 #define LFCLOCK_FREQUENCY (32768/2)
 
 /* function to setup the timer */
-void setupTimer(uint16_t sample_rate)
+void timer_enable(uint16_t sample_rate)
 {
     //Enable clock to timer by setting bit 6 in CMU_HFPERCLKEN0
     *CMU_HFPERCLKEN0 |= CMU2_HFPERCLKEN0_TIMER1;
@@ -27,7 +26,7 @@ void setupTimer(uint16_t sample_rate)
     *ISER0 |= ISER0_TIMER1_EN;
 }
 
-void setupLETimer(uint16_t sample_rate){  
+void timer_LE_enable(uint16_t sample_rate){  
     //Enable the clock for Low Energy Peripherals
     *CMU_HFCORECLKEN0 |= CMU_HFCORECLKEN0_LETIMER0_EN;
 
@@ -63,7 +62,34 @@ void setupLETimer(uint16_t sample_rate){
 
     //Enable interrupt repeat
     *LETIMER0_IEN |=LETIMER0_IEN_REP0;
+}
 
+void timer_LE_start(void){
+    *LETIMER0_CMD |= LETIMER0_CMD_START;
+}
 
+void timer_LE_stop(void){
+    *LETIMER0_CMD |= LETIMER0_CMD_START;
+}
+
+void timer_LE_set_repeat_counter(uint8_t val){
+    *LETIMER0_REP0 = val;
+}
+
+void timer_LE_disable(){
+    //Disable the clock for Low Energy Peripherals
+    *CMU_HFCORECLKEN0 &= ~(CMU_HFCORECLKEN0_LETIMER0_EN);
+
+    //Disable the low frequency oscilator
+    *CMU_OSCENCMD &= ~(CMU_OSCENCMD_LFRCON);
+    
+    //Select 32 768 Hz RC oscilator as clk source for LFACLKEN0
+    *CMU_LFCLKSEL &= ~(CMU_LFACLKSEL_LFRCO);
+
+    //Clear all prescale bits and set bit 8 for div2 prescale to LETIMER0
+    *CMU_LFAPRESC0 &= ~(CMU_LFAPRESC0_LETIMER0_MASK);
+
+    //Disable Low Energy clock
+    *CMU_LFACLKEN0 &= ~(CMU_LFACLKEN0_LETIMER0_EN);
 }
 
