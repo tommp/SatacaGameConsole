@@ -19,9 +19,9 @@ int main(void)
 {  
   /* Call the peripheral setup functions */
   setupGPIO();
-  //dac_init();
-  //setupTimer(SAMPLE_RATE);
-  setupLETimer(SAMPLE_RATE);
+  //dac_enable();
+  //timer_enable(SAMPLE_RATE);
+  timer_LE_enable(SAMPLE_RATE);
  
   
   *SCR = 6;
