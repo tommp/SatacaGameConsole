@@ -18,7 +18,7 @@ int main(void) {
     /*Disable RAM*/
     *EMU_MEMCTRL = EMU_MEMCTRL_BLK123;
 
-    /*Disable LFBCLK*/
+    /*Disable LFClocks*/
     *CMU_LFCLKSEL = CMU_LFCLKSEL_DIS;
 
     /* Go to sleep */
