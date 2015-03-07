@@ -7,24 +7,20 @@
 #include "timer.h"
 #include "dac.h"
 
-/* The period between sound samples, in clock cycles */
-#define   SAMPLE_RATE   5000
-#define   SAMPLE_RATE2  32768
-
-/* Declaration of peripheral setup functions */
-void setupDAC();
-
 /* Your code will start executing here */
 int main(void) {  
 
     /* Call the peripheral setup functions */
-    setupGPIO();
+    gpio_setup();
     //timer_enable(SAMPLE_RATE);
-    timer_LE_enable();
+    //timer_LE_enable();
 
     /* Go to sleep */
     *SCR = 6;
     __asm("WFI");
+
+    /*Disable RAM*/
+    *EMU_MEMCTRL = EMU_MEMCTRL_BLK123;
 
     while(1);
 
