@@ -62,6 +62,8 @@
 #define CMU2_HFPERCLKEN0_GPIO       (1 << 13)
 #define CMU2_HFPERCLKEN0_TIMER1     (1 << 6)
 
+
+#define CMU_LFCLKSEL_DIS            0
 #define CMU_OSCENCMD_LFXOEN	        (1 << 8)
 #define CMU_OSCENCMD_LFRCON	        (1 << 6)
 #define CMU_LFACLKSEL_LFRCO         (1 << 0) 
@@ -73,6 +75,8 @@
 
 #define CMU_HFCORECLKEN0_DMA            (1 << 0)
 #define CMU_HFCORECLKEN0_LETIMER0_EN    (1 << 4)
+
+
 
 // TIMER1
 
@@ -174,6 +178,7 @@
 #define DAC_CHnCTRL_EN  	(1 << 0)
 
 #define DACn_CTRL_SINEMODE_EN       (1 << 1)
+#define DACn_CTRL_CONVMODE_SAMPLEHOLD (1 << 2)
 #define DACn_CTRL_OUTPUTMODE_PIN_EN (1 << 4)
 #define DACn_CTRL_PRESC_BIT0        (1 << 16)
 #define DACn_CTRL_PRESC_BIT1	    (1 << 17)
