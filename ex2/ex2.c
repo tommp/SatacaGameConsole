@@ -13,16 +13,14 @@ int main(void) {
     /* Call the peripheral setup functions */
     gpio_setup();
     //timer_enable(SAMPLE_RATE);
-    //timer_LE_enable();
-
-    /* Go to sleep */
-    *SCR = 6;
-    __asm("WFI");
+    timer_LE_enable();
 
     /*Disable RAM*/
     *EMU_MEMCTRL = EMU_MEMCTRL_BLK123;
 
-    while(1);
+    /* Go to sleep */
+    *SCR = 6;
+    __asm("WFI");
 
     return 0;
 }
