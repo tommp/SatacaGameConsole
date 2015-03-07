@@ -66,7 +66,7 @@ volatile uint32_t wallhit_length = 3;
 volatile uint32_t wallhit_current_note = 0;
 volatile uint8_t use_wallhit_fadeout = 1;
 
-//
+//Single notes
 volatile Note* a[1] = {&a2000ms5};
 volatile Note* b[1] = {&b2000ms5};
 volatile Note* c[1] = {&c2000ms5};
