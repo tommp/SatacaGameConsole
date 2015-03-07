@@ -26,9 +26,10 @@ volatile Note d900ms6 = { .note = 'd', .octave = 6, .time_to_play_ms = 900 };
 volatile Note c500ms6 = { .note = 'c', .octave = 6, .time_to_play_ms = 500 };
 volatile Note b500ms5 = { .note = 'b', .octave = 5, .time_to_play_ms = 500 };
 
-volatile Note b2000ms5 = { .note = 'b', .octave = 5, .time_to_play_ms = 2000 };
-volatile Note c2000ms5 = { .note = 'c', .octave = 5, .time_to_play_ms = 2000 };
-volatile Note d2000ms5 = { .note = 'd', .octave = 5, .time_to_play_ms = 2000 };
+volatile Note c100ms5 = { .note = 'c', .octave = 5, .time_to_play_ms = 100 };
+volatile Note d100ms5 = { .note = 'd', .octave = 5, .time_to_play_ms = 100 };
+volatile Note e100ms5 = { .note = 'e', .octave = 5, .time_to_play_ms = 100 };
+volatile Note g100ms5 = { .note = 'g', .octave = 5, .time_to_play_ms = 100 };
 
 //SONGS
 /*
@@ -67,10 +68,10 @@ volatile uint32_t wallhit_current_note = 0;
 volatile uint8_t use_wallhit_fadeout = 1;
 
 //Single notes
-volatile Note* a[1] = {&a2000ms5};
-volatile Note* b[1] = {&b2000ms5};
-volatile Note* c[1] = {&c2000ms5};
-volatile Note* d[1] = {&d2000ms5};
+volatile Note* c[1] = {&c100ms5};
+volatile Note* d[1] = {&d100ms5};
+volatile Note* e[1] = {&e100ms5};
+volatile Note* g[1] = {&g100ms5};
 volatile uint32_t one_note_length = 1;
 volatile uint32_t one_note_current_note = 0;
 volatile uint8_t use_one_note_fadeout = 0;

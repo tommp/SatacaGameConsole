@@ -61,25 +61,25 @@ void __attribute__ ((interrupt)) LETIMER0_IRQHandler()
                 use_fadeout = use_imperial_march_fadeout;
                 break;
             case 4:
-                tunes_play_next_note(a, 
-                        one_note_length, 
-                        &one_note_current_note);
-                use_fadeout = use_one_note_fadeout;
-                break;
-            case 5:
-                tunes_play_next_note(b, 
-                        one_note_length, 
-                        &one_note_current_note);
-                use_fadeout = use_one_note_fadeout;
-                break;
-            case 6:
                 tunes_play_next_note(c, 
                         one_note_length, 
                         &one_note_current_note);
                 use_fadeout = use_one_note_fadeout;
                 break;
-            case 7:
+            case 5:
                 tunes_play_next_note(d, 
+                        one_note_length, 
+                        &one_note_current_note);
+                use_fadeout = use_one_note_fadeout;
+                break;
+            case 6:
+                tunes_play_next_note(e, 
+                        one_note_length, 
+                        &one_note_current_note);
+                use_fadeout = use_one_note_fadeout;
+                break;
+            case 7:
+                tunes_play_next_note(g, 
                         one_note_length, 
                         &one_note_current_note);
                 use_fadeout = use_one_note_fadeout;
