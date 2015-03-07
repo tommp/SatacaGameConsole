@@ -25,6 +25,11 @@ volatile Note a200ms5 = { .note = 'a', .octave = 5, .time_to_play_ms = 200 };
 volatile Note d900ms6 = { .note = 'd', .octave = 6, .time_to_play_ms = 900 };
 volatile Note c500ms6 = { .note = 'c', .octave = 6, .time_to_play_ms = 500 };
 volatile Note b500ms5 = { .note = 'b', .octave = 5, .time_to_play_ms = 500 };
+
+volatile Note b2000ms5 = { .note = 'b', .octave = 5, .time_to_play_ms = 2000 };
+volatile Note c2000ms5 = { .note = 'c', .octave = 5, .time_to_play_ms = 2000 };
+volatile Note d2000ms5 = { .note = 'd', .octave = 5, .time_to_play_ms = 2000 };
+
 //SONGS
 /*
 B D A G A B D A 
@@ -60,6 +65,15 @@ volatile Note* wallhit[3] = {&g400ms4, &e400ms4, &c800ms3};
 volatile uint32_t wallhit_length = 3;
 volatile uint32_t wallhit_current_note = 0;
 volatile uint8_t use_wallhit_fadeout = 1;
+
+//
+volatile Note* a[1] = {&a2000ms5};
+volatile Note* b[1] = {&b2000ms5};
+volatile Note* c[1] = {&c2000ms5};
+volatile Note* d[1] = {&d2000ms5};
+volatile uint32_t one_note_length = 1;
+volatile uint32_t one_note_current_note = 0;
+volatile uint8_t use_one_note_fadeout = 0;
 
 //OPTIONS TODO::SET TO UINT8 WHERE POSSIBLE
 volatile uint8_t song_to_use = 1;
