@@ -67,10 +67,14 @@ void timer_LE_enable(){
 
 void timer_LE_start(void){
     *LETIMER0_CMD |= LETIMER0_CMD_START;
+    //Select 32 768 Hz RC oscilator as clk source for LFACLKEN0
+    *CMU_LFCLKSEL |= CMU_LFACLKSEL_LFRCO;
 }
 
 void timer_LE_stop(void){
     *LETIMER0_CMD |= LETIMER0_CMD_START;
+    //Disable low frequency clock
+    *CMU_LFCLKSEL = CMU_LFCLKSEL_DIS;
 }
 
 void timer_LE_set_repeat_counter(uint8_t val){
