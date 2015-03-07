@@ -18,6 +18,9 @@ int main(void) {
     /*Disable RAM*/
     *EMU_MEMCTRL = EMU_MEMCTRL_BLK123;
 
+    /*Disable LFBCLK*/
+    *CMU_LFCLKSEL = CMU_LFCLKSEL_DIS;
+
     /* Go to sleep */
     *SCR = 6;
     __asm("WFI");
