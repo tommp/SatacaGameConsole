@@ -151,6 +151,10 @@
 #define EMU_BASE2 0x400c6000
 
 #define EMU_CTRL ((volatile uint32_t*)(EMU_BASE2 + 0x000))
+#define EMU_MEMCTRL ((volatile uint32_t*)(EMU_BASE2 + 0x004))
+#define EMU_MEMCTRL_BLK3    (1 << 2)
+#define EMU_MEMCTRL_BLK23   (11 << 1)
+#define EMU_MEMCTRL_BLK123  (111 << 0)
 
 // DAC0
 
