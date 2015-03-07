@@ -13,6 +13,9 @@ void dac_enable(void)
     *DAC0_CTRL |= DACn_CTRL_OUTPUTMODE_PIN_EN | 
 	            DACn_CTRL_PRESC_BIT0 | 
                 DACn_CTRL_PRESC_BIT2;
+
+    //Set DAC to SAMPLEHOLD
+    *DAC0_CTRL |= DACn_CTRL_CONVMODE_SAMPLEHOLD;
     
     //Enable left and right audio channels by writing 1 to DAC0_CH0CTRL and DAC0_CH1CTRL
     *DAC0_CH0CTRL |= DAC_CHnCTRL_EN;
