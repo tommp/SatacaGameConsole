@@ -5,7 +5,7 @@
 #include "gpio.h"
 
 /* function to set up GPIO mode and interrupts*/
-void setupGPIO(void)
+void gpio_setup(void)
 {
     *CMU_HFPERCLKEN0 |= CMU2_HFPERCLKEN0_GPIO; /* enable GPIO clock*/
     *GPIO_PA_CTRL = 2;  /* set high drive strength */

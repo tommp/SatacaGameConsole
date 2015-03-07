@@ -1,1 +1,1 @@
-void setupGPIO(void);
+void gpio_setup(void);
