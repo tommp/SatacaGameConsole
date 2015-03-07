@@ -78,11 +78,8 @@ void timer_LE_set_repeat_counter(uint8_t val){
 }
 
 void timer_LE_disable(){
-    //Disable the clock for Low Energy Peripherals
-    *CMU_HFCORECLKEN0 &= ~(CMU_HFCORECLKEN0_LETIMER0_EN);
-
     //Disable the low frequency oscilator
-    *CMU_OSCENCMD &= ~(CMU_OSCENCMD_LFRCON);
+    *CMU_OSCENCMD &= ~(CMU_OSCENCMD_LFRCON);//TODO::fix
     
     //Select 32 768 Hz RC oscilator as clk source for LFACLKEN0
     *CMU_LFCLKSEL &= ~(CMU_LFACLKSEL_LFRCO);
@@ -92,5 +89,8 @@ void timer_LE_disable(){
 
     //Disable Low Energy clock
     *CMU_LFACLKEN0 &= ~(CMU_LFACLKEN0_LETIMER0_EN);
+
+     //Disable the clock for Low Energy Peripherals
+    *CMU_HFCORECLKEN0 &= ~(CMU_HFCORECLKEN0_LETIMER0_EN);
 }
 
