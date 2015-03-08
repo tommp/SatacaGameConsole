@@ -72,7 +72,7 @@ void timer_LE_start(void){
 }
 
 void timer_LE_stop(void){
-    *LETIMER0_CMD |= LETIMER0_CMD_START;
+    *LETIMER0_CMD |= LETIMER0_CMD_STOP;
     //Disable low frequency clock
     *CMU_LFCLKSEL = CMU_LFCLKSEL_DIS;
 }
