@@ -1,0 +1,91 @@
+Package: busybox
+Version: 1.21.0
+Section: base
+Architecture: arm
+Maintainer: "Robert Schwebel <r.schwebel@pengutronix.de>"
+MD5Sum: de50c70659c2312743a980ef72b948ed
+Size: 112726
+Filename: busybox_1.21.0_arm.ipk
+Source: http://www.ptxdist.org/
+Description: missing
+Priority: optional
+
+
+Package: fbtest
+Version: 20041102+1
+Section: base
+Architecture: arm
+Maintainer: "Robert Schwebel <r.schwebel@pengutronix.de>"
+MD5Sum: 4057bc8fe2a1be57dafbeaf5c9c654cd
+Size: 49166
+Filename: fbtest_20041102+1_arm.ipk
+Source: http://www.ptxdist.org/
+Description: missing
+Priority: optional
+
+
+Package: game
+Version: 1.0
+Section: base
+Architecture: arm
+Maintainer: ""
+MD5Sum: 6610ea37b2c6fadeee88c73e42068030
+Size: 6832
+Filename: game_1.0_arm.ipk
+Source: http://www.ptxdist.org/
+Description: missing
+Priority: optional
+
+
+Package: init
+Version: 1.0.0
+Section: base
+Architecture: arm
+Maintainer: "Marc Kleine-Budde <mkl@pengutronix.de>"
+MD5Sum: 0851a2fd1f289ddbf9faa283a2e1b4eb
+Size: 802
+Filename: init_1.0.0_arm.ipk
+Source: http://www.ptxdist.org/
+Description: missing
+Priority: optional
+
+
+Package: kernel-modules
+Version: 3.12~rc4
+Section: base
+Architecture: arm
+Maintainer: "Robert Schwebel <r.schwebel@pengutronix.de>"
+MD5Sum: bf16f8097a244d5919dce1998e635e73
+Size: 4230
+Filename: kernel-modules_3.12~rc4_arm.ipk
+Source: http://www.ptxdist.org/
+Description: missing
+Priority: optional
+
+
+Package: os-release
+Version: 1.0
+Section: base
+Architecture: arm
+Maintainer: "Michael Olbrich <m.olbrich@pengutronix.de>"
+MD5Sum: a6f4722b78c3bc11c4fd4d455f47ce9a
+Size: 864
+Filename: os-release_1.0_arm.ipk
+Source: http://www.ptxdist.org/
+Description: missing
+Priority: optional
+
+
+Package: rootfs
+Version: 1.0.0
+Section: base
+Architecture: arm
+Maintainer: "Robert Schwebel <r.schwebel@pengutronix.de>"
+MD5Sum: a2a62e7f41c6525361ab7cd7928f0a15
+Size: 1066
+Filename: rootfs_1.0.0_arm.ipk
+Source: http://www.ptxdist.org/
+Description: missing
+Priority: optional
+
+

@@ -1,5 +1,4 @@
-#include <stdint.h>
-
+#include <linux/types.h>
 // GPIO
 
 #define GPIO_PA_BASE 0x40006000

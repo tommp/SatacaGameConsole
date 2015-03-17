@@ -10,11 +10,11 @@
 #include <linux/fs.h>       // used for struct file_operations struct
 #include <asm/io.h>         // used for iowrite32 and other io operations
 #include <linux/ioport.h>   // used for request_mem_region() and other
-#include <sys/types.h>      // used for ssize_t
+//#include <sys/types.h>      // used for ssize_t
 #include <asm/uaccess.h>    // used for copy_to_user
 
 #include "efm32gg.h"
-#include <driver-gamepad.h>
+#include "driver-gamepad.h"
 
 
 /*
@@ -76,13 +76,13 @@ static int __init driver_init(void)
 	return 0;
 }
 
-static int open_driver(struct inode *node, struct file *filp){
+static int driver_open(struct inode *node, struct file *filp){
     printk("More work?\n");
     return 0;
 }
 
 /*User program close the driver*/
-static int release_driver(struct inode *inode, struct file *filp){
+static int driver_release(struct inode *inode, struct file *filp){
     printk("Jobs done!\n");
     return 0;
 }
@@ -100,7 +100,7 @@ static ssize_t driver_read(
 }
 
 
-static ssize_t write_driver(
+static ssize_t driver_write(
         struct file *filp, 
         const char __user *buf, 
         size_t count, 
@@ -115,7 +115,7 @@ static ssize_t write_driver(
  * code from a running kernel
  */
 
-static void __exit template_cleanup(void)
+static void __exit driver_cleanup(void)
 {
 	 printk("Short life for a small module...\n");
 	 
