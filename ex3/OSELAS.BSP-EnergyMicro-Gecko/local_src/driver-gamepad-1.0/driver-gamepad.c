@@ -11,6 +11,7 @@
 #include <asm/io.h>         // used for iowrite32 and other io operations
 #include <linux/ioport.h>   // used for request_mem_region() and other
 //#include <sys/types.h>      // used for ssize_t
+#include <linux/signal.h>   //Used to send signals
 #include <asm/uaccess.h>    // used for copy_to_user
 
 #include "efm32gg.h"
@@ -42,6 +43,7 @@ static int __init driver_init(void)
         .write = driver_write,
         .open = driver_open,
         .release = driver_release,
+        .fasync = driver_fasync,
     };
     
     /* init the struct for internal representation of the char driver */
@@ -72,18 +74,29 @@ static int __init driver_init(void)
     /*Configure buttons as input*/
     iowrite32(GPIO_IN_EN, GPIO_PC_MODEL);
     iowrite32(GPIO_PULL_DIR_UP, GPIO_PC_DOUT);
+
+    /* Configure hardware interrupt */
+    iowrite32(0x22222222, GPIO_EXTIPSELL);
+    iowrite32(0xFF, GPIO_EXTIFALL);
+    iowrite32(0xFF, GPIO_IEN)
+
+    /* Register interrupt handler */
+    request_irq(GPIO_EVEN_IRC_NUM,(irq_handler_t)GPIO_interrupt_handler, 0, DEVICE_NAME, &driver_cdev);
+    request_irq(GPIO_ODD_IRC_NUM, (irq_handler_t)GPIO_interrupt_handler, 0, DEVICE_NAME, &driver_cdev);  
     	
 	return 0;
 }
 
 static int driver_open(struct inode *node, struct file *filp){
     printk("More work?\n");
+    driver_enabled = 1;
     return 0;
 }
 
 /*User program close the driver*/
 static int driver_release(struct inode *inode, struct file *filp){
     printk("Jobs done!\n");
+    driver_enabled = 0;
     return 0;
 }
 
@@ -98,7 +111,6 @@ static ssize_t driver_read(
     copy_to_user(buff, &data, 1);
     return 1;
 }
-
 
 static ssize_t driver_write(
         struct file *filp, 
@@ -126,9 +138,38 @@ static void __exit driver_cleanup(void)
     }else{
         printk("Char device registered with Kernel");
     }
+
+    /* Release interrupt handler */
+    free_irq(GPIO_EVEN_IRQ_NUM, &driver_cdev);
+    free_irq(GPIO_ODD_IRQ_NUM, &driver_cdev);
     
     /* Release occupied memory so that it can be used by other drivers */
     release_mem_region(GPIO_PC_BASE,GPIO_IFC - GPIO_PA_BASE);
+}
+
+static int driver_fasync(int fd, struct file *filp, int mode){
+    return fasync_helper(fd, filp, mode, &async_queue); 
+}
+
+static irqreturn_t GPIO_interrupt_handler(int irq, void *dev_id, struct pt_regs * regs)
+{
+
+    /* Resets the interrupt */
+    iowrite32(0xFFFF, GPIO_IFC);
+
+    /* If there are any prosesses in the queue, send the signal with kill fasynch */
+    if(async_queue){
+        kill_fasync(&async_queue, SIGIO, POLL_IN);
+    }
+    
+    /* Use this in external files to recieve signals from the driver
+    signal(SIGIO, &input_handler); input handler is the function to be called when a signal is recieved
+    fcntl(STDIN_FILENO, F_SETOWN, getpid());
+    oflags = fcntl(STDIN_FILENO, F_GETFL);
+    fcntl(STDIN_FILENO, F_SETFL, oflags | FASYNC);
+    */
+
+    return IRQ_HANDLED; 
 }
 
 module_init(driver_init);

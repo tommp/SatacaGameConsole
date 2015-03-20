@@ -3,6 +3,8 @@
 #define COUNT    1
 #define GPIO_IN_EN  0x33333333
 #define GPIO_PULL_DIR_UP 0xff
+#define GPIO_EVEN_IRC_NUM 17
+#define GPIO_ODD_IRC_NUM 18
 
 static int __init driver_init(void);
 static void __exit driver_cleanup(void);
@@ -29,3 +31,6 @@ struct cdev driver_cdev;
 struct resource *resource;
 
 struct class *cl;
+
+/* A stuct representing the asynchronus queue for signal handling */
+struct fasync_struct *async_queue;
