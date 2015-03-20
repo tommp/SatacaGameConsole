@@ -20,6 +20,8 @@ static ssize_t driver_write(
         const char __user *buf, 
         size_t count, 
         loff_t *offp);
+static irqreturn_t GPIO_interrupt_handler(int irq, void *dev_id, struct pt_regs * regs);
+static int driver_fasync(int fd, struct file *filp, int mode);
 
 /* Struct to hold the device numbers */
 dev_t dev_nr;
