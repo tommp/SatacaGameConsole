@@ -252,3 +252,13 @@ driver-gamepad.compile : driver-gamepad.prepare
 driver-gamepad.compile : driver-gamepad.prepare
 driver-gamepad.compile : driver-gamepad.prepare
 driver-gamepad.compile : driver-gamepad.prepare
+host-lndir.get : lndir-1.0.2.tar.bz2
+host-lndir.extract : host-lndir.get
+host-xorg-proto-x.get : xproto-7.0.23.tar.bz2
+host-xorg-proto-x.extract : host-xorg-proto-x.get
+host-pkg-config.get : pkg-config-0.25.tar.gz
+host-pkg-config.extract : host-pkg-config.get
+host-pkg-config.extract.post : host-pkg-config.extract
+host-pkg-config.prepare : host-pkg-config.extract.post
+host-pkg-config.compile : host-pkg-config.prepare
+host-pkg-config.install : host-pkg-config.compile
