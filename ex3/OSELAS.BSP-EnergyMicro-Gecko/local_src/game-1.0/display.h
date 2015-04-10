@@ -27,4 +27,7 @@ uint16_t *screen_pxl_vals;
 
 int display_init(void);
 
+void fill_screen(uint16_t value);
+//void update_snakes(uint16_t* screen_pxl_vals, struct snake_t *players, n_players);
+
 #endif // _DISPLAY_API_H
