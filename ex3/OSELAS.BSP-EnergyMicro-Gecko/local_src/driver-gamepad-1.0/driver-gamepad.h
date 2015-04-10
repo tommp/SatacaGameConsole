@@ -1,13 +1,15 @@
+#ifndef _DRIVER_GAMEPAD_H 
+#define _DRIVER_GAMEPAD_H
 
 #define DEVICE_NAME "driver-gamepad"
 #define COUNT    1
 #define GPIO_IN_EN  0x33333333
 #define GPIO_PULL_DIR_UP 0xff
-#define GPIO_EVEN_IRC_NUM 17
-#define GPIO_ODD_IRC_NUM 18
+#define GPIO_EVEN_IRQ_NUM 17
+#define GPIO_ODD_IRQ_NUM 18
 
-static int __init driver_init(void);
-static void __exit driver_cleanup(void);
+static int __init init_driver();
+static void __exit driver_cleanup();
 static int driver_open(struct inode *node, struct file *filp);
 static int driver_release(struct inode *inode, struct file *filp);
 static ssize_t driver_read(
@@ -36,3 +38,7 @@ struct class *cl;
 
 /* A stuct representing the asynchronus queue for signal handling */
 struct fasync_struct *async_queue;
+
+uint32_t driver_enabled; 
+
+#endif

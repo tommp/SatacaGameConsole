@@ -2,16 +2,22 @@
 #include <sys/stat.h>   // used for open()
 #include <fcntl.h>      // used for open()
 #include <sys/mman.h>   // used for mmap()
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <sys/ioctl.h>
+#include <math.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "display.h"
 
-
-int display_init(void){
-
+int display_init(){
     /* Open file reperesenting the display */
     fbfd = open("/dev/fb0", O_RDWR);
     if(fbfd == ERROR){
         printf("Error: Failed to open file\n");
+        return ERROR;
         //TODO:: add exit/errno action
     }else{
         printf("Display file opened succesfully\n");
@@ -33,42 +39,46 @@ int display_init(void){
             PROT_READ |
             PROT_WRITE, 
             MAP_SHARED, 
-            fp, 
+            fbfd, 
             0); 
     if (screen_pxl_vals == MAP_FAILED){     //MAP_FAILED = ((void*) -1)
         printf("Error: Failed mapping screen to memory\n");
+        return -1;
         //TODO:: add exit/errno action      
     }
     
+    return 0;
+    
 }
 
-void fill_screen(uint16_t value){
-    for(int i=0; i<SCREEN_WIDTH * SCREEN_HEIGHT; i++){
+void display_fill_screen(uint16_t value){
+    int i;
+    for(i=0; i<SCREEN_WIDTH * SCREEN_HEIGHT; i++){
         screen_pxl_vals[i]=value;
     }
-    //comand driver to update display
-    rect.dx = 0;
-    rect.dy = 0;
-    rect.width = 320;
-    rect.height = 240;
-    ioctl(fp, 0x4680, &rect);
+    //update entire display
+    rect->dx = 0;
+    rect->dy = 0;
+    rect->width = 320;
+    rect->height = 240;
+    ioctl(fbfd, 0x4680, rect);
 }
 
-/*
-void update_snakes(uint16_t* screen_pxl_vals, struct snake_t *players, n_players){
-    // Update each player 
-    for(int player=0; player<n_players; player++){ 
-        //update move to mmap buffer
-        
-        //update only head on screen
+void display_fill_cell(int size, struct position_t pos, int color){
+    for(int x= GAME_PIXEL_SIZE*pos.x; x<GAME_PIXEL_SIZE*(pos.x + 1); x++){
+        for(int y= GAME_PIXEL_SIZE*pos.y; y<GAME_PIXEL_SIZE*(pos.y + 1); y++){
+            screen_pxl_vals[x + y * SCREEN_WIDTH] = color;
+        }
     }
-    //TODO:: this is only for debugging, replace with smarter refreshing.
-    rect.dx = 0;
-    rect.dy = 0;
-    rect.width = 320;
-    rect.height = 240;
-    ioctl(fp, 0x4680, &rect);
+    //configure cell
+    rect->dx = pos.x;
+    rect->dy = pos.y;
+    rect->width = GAME_PIXEL_SIZE;
+    rect->height = GAME_PIXEL_SIZE;
+    
+    //update configured area
+    ioctl(fbfd, 0x4680, rect);
 }
-*/
+
 
 

@@ -1,15 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <signal.h>
+#include <fcntl.h>
+#include <time.h>
+#include <math.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "display.h"
 #include "game.h"
 
-
-
-
 void gpio_handler(int signo){
-    //check what button has been pushed
    if(signo == SIGIO){
+        //TODO:: for debugging purposes only
+        interrupt_triggered = 1;    
         fill_screen(6);
    }
 }
@@ -26,8 +31,8 @@ int gamepad_init(){
     if(fcntl(fileno(driver), F_SETOWN, getpid()) == ERROR){
         printf("ERROR: Unable to register process with driver\n");
     }
-    
-    if(fcntl(fileno(driver), F_GETFL) == ERROR){
+    int oflags = fcntl(fileno(driver), F_GETFL);
+    if(oflags == ERROR){
         printf("ERROR: Unable to F_GETFL with the driver\n");
     }
     if(fcntl(fileno(driver), F_SETFL, oflags | FASYNC) == ERROR){
@@ -36,28 +41,37 @@ int gamepad_init(){
     return 0;
 }
 
-int get_next_pos(direction_t *dir_next, position_t *head_pos){
-    switch(dir_next){
+int update_pos(dir_t *dir_next, position_t *head_pos){
+    switch(*dir_next){
         case LEFT:
-            head_pos->x = head_pos.x-1
+            head_pos->x = head_pos->x-1;
             break;
         case UP:
-            head_pos->y = head_pos.y-1
+            head_pos->y = head_pos->y-1;
             break;
         case RIGHT:
-            head_pos->x = head_pos.x+1
+            head_pos->x = head_pos->x+1;
             break;
         case DOWN:
-            head_pos->y = head_pos.y+1
+            head_pos->y = head_pos->y+1;
             break;
         default:
+            return -1;
             printf("Error: unhandled direction\n");
-    }    
+    }
+    return 0;
 }
 
 int main(int argc, char *argv[])
 {
-	printf("Hello World, I'm game!\n");
+	printf("Initializing game\n");
+	interrupt_triggered = 0;        //TODO:: for debugging purposes only
+	display_init();
+	fill_screen(13);
+    gamepad_init();
+    while(running) {
+        continue;
+    }
 
 	exit(EXIT_SUCCESS);
 }

@@ -1,7 +1,7 @@
 /*
  * This is a demo Linux kernel module.
  */
-
+ 
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/init.h>
@@ -13,10 +13,18 @@
 //#include <sys/types.h>      // used for ssize_t
 #include <linux/signal.h>   //Used to send signals
 #include <asm/uaccess.h>    // used for copy_to_user
+#include <linux/irq.h>
+#include <linux/device.h>
+
+#include <linux/uaccess.h>
+#include <linux/interrupt.h>
+#include <asm/signal.h>
+#include <linux/poll.h>
+#include <asm/siginfo.h>
+#include <linux/moduleparam.h>
 
 #include "efm32gg.h"
 #include "driver-gamepad.h"
-
 
 /*
  * template_init - function to insert this module into kernel space
@@ -27,10 +35,11 @@
  * Returns 0 if successfull, otherwise -1
  */
 
-static int __init driver_init(void)
+static int __init init_driver()
 {
 	/* Get major number for the device */
-    int err = alloc_chrdev_region(&dev_nr, 0, COUNT, DEVICE_NAME);
+	int err = 0;
+    err = alloc_chrdev_region(&dev_nr, 0, COUNT, DEVICE_NAME);
     if(err < 0){
         printk(KERN_WARNING "Error: Unable to allocate driver region. err = %d\n", err);
     }else{
@@ -61,7 +70,7 @@ static int __init driver_init(void)
     
     /* Enable the driver to appear in the /dev directory */
     cl = class_create(THIS_MODULE, DEVICE_NAME);
-    device_create(cl, NULL, devno, NULL, DEVICE_NAME);
+    device_create(cl, NULL, dev_nr, NULL, DEVICE_NAME);
     
     /* Request access to GPIO memory region*/
     resource = request_mem_region(GPIO_PC_BASE,GPIO_IFC - GPIO_PA_BASE, DEVICE_NAME);
@@ -78,11 +87,11 @@ static int __init driver_init(void)
     /* Configure hardware interrupt */
     iowrite32(0x22222222, GPIO_EXTIPSELL);
     iowrite32(0xFF, GPIO_EXTIFALL);
-    iowrite32(0xFF, GPIO_IEN)
+    iowrite32(0xFF, GPIO_IEN);
 
     /* Register interrupt handler */
-    request_irq(GPIO_EVEN_IRC_NUM,(irq_handler_t)GPIO_interrupt_handler, 0, DEVICE_NAME, &driver_cdev);
-    request_irq(GPIO_ODD_IRC_NUM, (irq_handler_t)GPIO_interrupt_handler, 0, DEVICE_NAME, &driver_cdev);  
+    request_irq(GPIO_EVEN_IRQ_NUM,(irq_handler_t)GPIO_interrupt_handler, 0, DEVICE_NAME, &driver_cdev);
+    request_irq(GPIO_ODD_IRQ_NUM, (irq_handler_t)GPIO_interrupt_handler, 0, DEVICE_NAME, &driver_cdev);  
     	
 	return 0;
 }
@@ -127,24 +136,19 @@ static ssize_t driver_write(
  * code from a running kernel
  */
 
-static void __exit driver_cleanup(void)
+static void __exit driver_cleanup()
 {
 	 printk("Short life for a small module...\n");
 	 
-	 /* Remove the char device */
-	 err = cdev_del(&driver_cdev);
-    if(err < 0){
-        printk(KERN_WARNING "Error: Unable to register device with kernel. err = %d", err);
-    }else{
-        printk("Char device registered with Kernel");
-    }
+	/* Remove the char device */
+	cdev_del(&driver_cdev);
 
     /* Release interrupt handler */
     free_irq(GPIO_EVEN_IRQ_NUM, &driver_cdev);
     free_irq(GPIO_ODD_IRQ_NUM, &driver_cdev);
     
     /* Release occupied memory so that it can be used by other drivers */
-    release_mem_region(GPIO_PC_BASE,GPIO_IFC - GPIO_PA_BASE);
+    release_mem_region(GPIO_PC_BASE, GPIO_IFC - GPIO_PA_BASE);
 }
 
 static int driver_fasync(int fd, struct file *filp, int mode){
@@ -172,7 +176,7 @@ static irqreturn_t GPIO_interrupt_handler(int irq, void *dev_id, struct pt_regs 
     return IRQ_HANDLED; 
 }
 
-module_init(driver_init);
+module_init(init_driver);
 module_exit(driver_cleanup);
 
 MODULE_DESCRIPTION("Small driver for the gamepad, super useful");
