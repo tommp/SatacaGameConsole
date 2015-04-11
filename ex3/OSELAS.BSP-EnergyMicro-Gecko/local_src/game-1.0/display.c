@@ -65,8 +65,8 @@ void display_fill_screen(uint16_t value){
 }
 
 void display_fill_cell(int size, struct position_t pos, int color){
-    for(int x= GAME_PIXEL_SIZE*pos.x; x<GAME_PIXEL_SIZE*(pos.x + 1); x++){
-        for(int y= GAME_PIXEL_SIZE*pos.y; y<GAME_PIXEL_SIZE*(pos.y + 1); y++){
+    for(int y= GAME_PIXEL_SIZE*pos.y; y<GAME_PIXEL_SIZE*(pos.y + 1); y++){
+        for(int x= GAME_PIXEL_SIZE*pos.x; x<GAME_PIXEL_SIZE*(pos.x + 1); x++){
             screen_pxl_vals[x + y * SCREEN_WIDTH] = color;
         }
     }
