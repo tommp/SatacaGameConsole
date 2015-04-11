@@ -41,6 +41,24 @@ int gamepad_init(){
     return 0;
 }
 
+// Initialize all grid cells to zero
+void grid_init(bool *grid, int height, int width){
+    for (int row = 0; row < height; row++){
+        for (int col = 0; col < width; col++){
+            grid[row][col] = 0;
+        }
+    }
+}
+
+void players_init(bool *grid, int height, int width, struct player_t *players, int n_players){
+    for (int player = 0; player < n_players; player++){
+        players[player].pos.x = width*(player+1)/(n_players+1);
+        players[player].pos.y = height/2;
+        
+        players[player].dir_next = UP;
+    }
+}
+
 int update_pos(dir_t *dir_next, position_t *head_pos){
     switch(*dir_next){
         case LEFT:
