@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <unistd.h>
 #include <signal.h>
 #include <fcntl.h>
 #include <time.h>
 #include <math.h>
 #include <sys/types.h>
-#include <unistd.h>
 #include <time.h>
 
 #include "display.h"
@@ -14,12 +14,13 @@
 
 void gpio_handler(int signo){
    if(signo == SIGIO){ 
-        fill_screen(6);
-        update_player_direction(&players, (char) getc(driver));
+        printf("gpio_handler recvd signal! \n");
+        display_fill_screen(6);
+        update_player_direction(players, (char) getc(driver));
    }
 }
 
-int update_player_direction(struct player_t *players, char buttons_now){
+void update_player_direction(player_t players[N_PLAYERS], char buttons_now){
 
     char button_changes = (buttons_now ^ g_buttons_last);
     
@@ -69,49 +70,57 @@ int update_player_direction(struct player_t *players, char buttons_now){
     g_buttons_last = buttons_now;
 } 
 
-int gamepad_init(){
+int gamepad_init(void){
 
     printf("Initializing gamepad \n");
     
     driver = fopen("/dev/gamepad", "rb");
+    if(driver == NULL){
+        printf("ERROR: Unable to open gamepad-driver file\n");
+        exit(1);
+    }
 
     if(signal(SIGIO, &gpio_handler) == SIG_ERR){
         printf("ERROR: Unable to register signal handler callback\n");
+        exit(1);
     }
-    if(fcntl(fileno(driver), F_SETOWN, getpid()) == ERROR){
+    if(fcntl(fileno(driver), F_SETOWN, getpid()) == ERROR){    
         printf("ERROR: Unable to register process with driver\n");
+        exit(1);
     }
     int oflags = fcntl(fileno(driver), F_GETFL);
     if(oflags == ERROR){
         printf("ERROR: Unable to F_GETFL with the driver\n");
+        exit(1);
     }
     if(fcntl(fileno(driver), F_SETFL, oflags | FASYNC) == ERROR){
         printf("ERROR: Unable to set driver settings \n");
+        exit(1);
     }
     return 0;
 }
 
 // Initialize all grid cells to zero
-void grid_init(uint8_t **grid, int height, int width){
-    for (int row = 0; row < height; row++){
-        for (int col = 0; col < width; col++){
+void grid_init(uint8_t grid[][GRID_HEIGHT]){
+    for (int row = 0; row < GRID_HEIGHT; row++){
+        for (int col = 0; col < GRID_WIDTH; col++){
             grid[col][row] = CELL_FREE;
         }
     }
 }
 
-void players_init(uint8_t **grid, int height, int width, struct player_t *players, int n_players){
-    for (int player = 0; player < n_players; player++){
-        players[player].pos.x = width*(player+1)/(n_players+1);
-        players[player].pos.y = height/2;
+void players_init(uint8_t grid[][GRID_HEIGHT], player_t players[N_PLAYERS]){
+    for (int player = 0; player < N_PLAYERS; player++){
+        players[player].pos.x = GRID_WIDTH*(player+1)/(N_PLAYERS+1);
+        players[player].pos.y = GRID_HEIGHT/2;
         
-        players[player].dir_next = UP;
+        players[player].dir = UP;
     }
 }
 
-int update_pos(uint8_t **grid, struct player_t *players, int n_players){
-    for(int player=0; player < n_players; player++){
-        switch(players[player].dir_next){
+int update_pos(uint8_t grid[][GRID_HEIGHT], player_t players[N_PLAYERS]){
+    for(int player=0; player < N_PLAYERS; player++){
+        switch(players[player].dir){
             case LEFT:
                 players[player].pos.x = players[player].pos.x-1;
                 break;
@@ -128,7 +137,7 @@ int update_pos(uint8_t **grid, struct player_t *players, int n_players){
                 return -1;
                 printf("Error: unhandled direction\n");
         }
-        if(detect_crash(grid, GRID_HEIGHT, GRID_WIDTH, players[player].pos){
+        if(detect_crash(grid, players[player].pos)){
             //handle death
             return 1;
         }else{
@@ -140,13 +149,13 @@ int update_pos(uint8_t **grid, struct player_t *players, int n_players){
 }
 
 // returns 1 if move is illigal, 0 otherwise
-int detect_crash(uint8_t **grid,int grid_heigth, int grid_length, position_t pos){
+int detect_crash(uint8_t grid[][GRID_HEIGHT], position_t pos){
     //Check if position is inside the grid bounderies
-    if ((pos.x>grid_length-1) || (pos.x<0)){
+    if ((pos.x>GRID_WIDTH-1) || (pos.x<0)){
         //out of bounds sideways
         return 1;
     }
-    if ((pos.y>grid_height-1) || (pos.y<0)){
+    if ((pos.y>GRID_HEIGHT-1) || (pos.y<0)){
         //out of bounds in the other direction
         return 1;
     }
@@ -164,20 +173,20 @@ int main(int argc, char *argv[])
 	printf("Initializing game\n");
 	clock_t start, end;
 	int remaining_time;
-	struct player_t players[NUM_PLAYERS];
+	player_t players[N_PLAYERS];
 	
 	display_init();
     gamepad_init();
-    grid_init(grid, GRID_HEIGHT, GRID_WIDTH);
-    players_init(grid, GRID_HEIGHT, GRID_WIDTH, players, NUM_PLAYERS);
+    grid_init(grid);
+    players_init(grid, players);
     
-    fill_screen(13);
+    display_fill_screen(13);
     g_running = 1;
     
-    while(running) {
+    while(g_running) {
         start = clock();
         
-        update_position(grid, players, NUM_PLAYERS);
+        update_pos(grid, players);
         
         end = clock();
         

@@ -73,7 +73,7 @@ static int __init init_driver()
     device_create(cl, NULL, dev_nr, NULL, DEVICE_NAME);
     
     /* Request access to GPIO memory region*/
-    resource = request_mem_region(GPIO_PC_BASE,GPIO_IFC - GPIO_PA_BASE, DEVICE_NAME);
+    resource = request_mem_region(GPIO_PC_BASE, GPIO_IFC_OFFSET, DEVICE_NAME);
     if(resource == NULL){
         printk(KERN_WARNING "Error: GPIO memory access denied\n");
     }else{

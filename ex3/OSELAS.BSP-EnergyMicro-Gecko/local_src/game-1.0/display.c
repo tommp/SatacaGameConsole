@@ -12,7 +12,7 @@
 
 #include "display.h"
 
-int display_init(){
+int display_init(void){
     /* Open file reperesenting the display */
     fbfd = open("/dev/fb0", O_RDWR);
     if(fbfd == ERROR){
@@ -21,6 +21,7 @@ int display_init(){
         //TODO:: add exit/errno action
     }else{
         printf("Display file opened succesfully\n");
+        display_fill_screen(42);
     }
     
     /* Get screen info from framebuffer driver 
@@ -64,7 +65,7 @@ void display_fill_screen(uint16_t value){
     ioctl(fbfd, 0x4680, rect);
 }
 
-void display_fill_cell(int size, struct position_t pos, int color){
+void display_fill_cell(int size, position_t pos, int color){
     for(int y= GAME_PIXEL_SIZE*pos.y; y<GAME_PIXEL_SIZE*(pos.y + 1); y++){
         for(int x= GAME_PIXEL_SIZE*pos.x; x<GAME_PIXEL_SIZE*(pos.x + 1); x++){
             screen_pxl_vals[x + y * SCREEN_WIDTH] = color;

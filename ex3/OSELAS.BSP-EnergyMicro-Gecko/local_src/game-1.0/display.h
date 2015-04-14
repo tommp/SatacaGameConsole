@@ -13,6 +13,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "game.h"
+
 #define SCREEN_HEIGHT   240
 #define SCREEN_WIDTH    320
 #define BITS_PER_PIXEL  16
@@ -20,7 +22,10 @@
 #define N_BITS_RED      5
 #define N_BITS_GREEN    5
 #define N_BITS_BLUE     6
+
 #define GAME_PIXEL_SIZE 4
+#define GRID_HEIGHT     SCREEN_HEIGHT/GAME_PIXEL_SIZE
+#define GRID_WIDTH      SCREEN_WIDTH/GAME_PIXEL_SIZE
 
 #define ERROR   (-1)
 
@@ -35,10 +40,12 @@ about a frame buffer device, its current format and video mode, as well as
 other miscellaneous parameters */
 struct fb_var_screeninfo* screen_info;
 
+uint8_t grid[GRID_WIDTH][GRID_HEIGHT];
+
 uint16_t *screen_pxl_vals;
 
-int display_init();
-void fill_screen(uint16_t value);
-void display_fill_cell(int size, struct position_t pos, int color)
+int display_init(void);
+void display_fill_screen(uint16_t value);
+void display_fill_cell(int size, position_t pos, int color);
 
 #endif // _DISPLAY_API_H
