@@ -74,7 +74,7 @@ int gamepad_init(void){
 
     printf("Initializing gamepad \n");
     
-    driver = fopen("/dev/gamepad", "rb");
+    driver = fopen("/dev/driver-gamepad", "rb");
     if(driver == NULL){
         printf("ERROR: Unable to open gamepad-driver file\n");
         exit(1);
