@@ -11,6 +11,7 @@
 
 #include "display.h"
 #include "game.h"
+#include <asm-generic/fcntl.h> // F_SETOWN
 
 void gpio_handler(int signo){
    if(signo == SIGIO){ 
@@ -76,7 +77,7 @@ int gamepad_init(void){
     
     driver = fopen("/dev/driver-gamepad", "rb");
     if(driver == NULL){
-        printf("ERROR: Unable to open gamepad-driver file\n");
+        printf("ERROR: Unable to open driver-gamepad file\n");
         exit(1);
     }
 

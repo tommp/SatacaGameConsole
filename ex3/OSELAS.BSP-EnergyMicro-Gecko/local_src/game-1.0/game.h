@@ -8,9 +8,10 @@
 #define GRID_HEIGHT     SCREEN_HEIGHT/GAME_PIXEL_SIZE   //
 #define GRID_WIDTH      SCREEN_WIDTH/GAME_PIXEL_SIZE    //
 
-#define FASYNC      0x0040                              //
-#define F_SETOWN    6                                   //
-
+//#define FASYNC      0x0040                              //
+//#define F_SETOWN    6                                   //
+// Hack to fix conflicting 'struct flock' declarations 
+#define HAVE_ARCH_STRUCT_FLOCK 
 
 #define CELL_FREE       0
 #define CELL_BLOCKED    1
