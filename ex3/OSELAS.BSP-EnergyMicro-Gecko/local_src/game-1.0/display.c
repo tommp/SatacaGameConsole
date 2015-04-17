@@ -73,14 +73,10 @@ void display_fill_cell(int size, position_t pos, int color){
         }
     }
     //configure cell
-    /*rect.dx = pos.x;
-    rect.dy = pos.y;
+    rect.dx = pos.x*GAME_PIXEL_SIZE;
+    rect.dy = pos.y*GAME_PIXEL_SIZE;
     rect.width = GAME_PIXEL_SIZE;
-    rect.height = GAME_PIXEL_SIZE;*/
-    rect.dx = 0;
-    rect.dy = 0;
-    rect.width = 320;
-    rect.height = 240;
+    rect.height = GAME_PIXEL_SIZE;
     
     //update configured area
     ioctl(fbfd, 0x4680, &rect);

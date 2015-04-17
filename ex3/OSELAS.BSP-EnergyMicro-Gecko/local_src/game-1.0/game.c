@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
         remaining_time = TIME_PER_LOOP - (((end - start)/CLOCKS_PER_SEC)*1000);
         
         if(remaining_time > 0) {
-            usleep(remaining_time);
+            usleep(remaining_time*1000);
         }
         
         continue;
