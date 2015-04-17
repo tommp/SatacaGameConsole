@@ -162,7 +162,7 @@ int update_pos(uint8_t grid[][GRID_HEIGHT], player_t players[N_PLAYERS]){
             //printf("Detected crash\n");   //TODO:: Remove
             //handle death
             g_running = 0;
-            display_fill_screen((player)*0x7FF0);
+            display_fill_screen(((player+1)%2+1)*0x7FF0);
             return 1;
         }else{
             grid[players[player].pos.x][players[player].pos.y] = (player+1);
