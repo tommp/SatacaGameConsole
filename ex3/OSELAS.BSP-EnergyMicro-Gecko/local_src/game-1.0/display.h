@@ -33,12 +33,12 @@
 int fbfd;
 
 /* Struct to hold the rectangle of the framebuffer that is to be updated */
-struct fb_copyarea* rect;
+struct fb_copyarea rect;
 
 /* struct fb_var_screeninfo stores device independent changeable information
 about a frame buffer device, its current format and video mode, as well as
 other miscellaneous parameters */
-struct fb_var_screeninfo* screen_info;
+struct fb_var_screeninfo screen_info;
 
 uint8_t grid[GRID_WIDTH][GRID_HEIGHT];
 

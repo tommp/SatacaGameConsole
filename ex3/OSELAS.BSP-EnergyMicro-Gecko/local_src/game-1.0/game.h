@@ -27,6 +27,7 @@
 #define SW_3            0b00000100
 #define SW_2            0b00000010
 #define SW_1            0b00000001
+#define max             0b11111111
 
 typedef enum{
     LEFT,
@@ -55,8 +56,8 @@ int interrupt_triggered;    //TODO:: for debugging purposes only
 int detect_crash(uint8_t grid[][GRID_HEIGHT], position_t pos);
 int gamepad_init(void);
 void grid_init(uint8_t grid[][GRID_HEIGHT]);
-void players_init(uint8_t grid[][GRID_HEIGHT], player_t players[N_PLAYERS]);
+void players_init(uint8_t grid[][GRID_HEIGHT], player_t *players);
 int update_pos(uint8_t grid[][GRID_HEIGHT], player_t players[N_PLAYERS]);
-void update_player_direction(player_t players[N_PLAYERS], char buttons_now);
+void update_player_direction(char buttons_now);
 
 #endif

@@ -47,7 +47,7 @@ int display_init(void){
         return -1;
         //TODO:: add exit/errno action      
     }
-    
+    printf("Display initialized successfully\n");   //TODO:: Remove
     return 0;
     
 }
@@ -58,11 +58,12 @@ void display_fill_screen(uint16_t value){
         screen_pxl_vals[i]=value;
     }
     //update entire display
-    rect->dx = 0;
-    rect->dy = 0;
-    rect->width = 320;
-    rect->height = 240;
-    ioctl(fbfd, 0x4680, rect);
+    rect.dx = 0;
+    rect.dy = 0;
+    rect.width = 320;
+    rect.height = 240;
+    printf("Trying to fill screen\n");   //TODO:: Remove
+    ioctl(fbfd, 0x4680, &rect);
 }
 
 void display_fill_cell(int size, position_t pos, int color){
@@ -72,13 +73,17 @@ void display_fill_cell(int size, position_t pos, int color){
         }
     }
     //configure cell
-    rect->dx = pos.x;
-    rect->dy = pos.y;
-    rect->width = GAME_PIXEL_SIZE;
-    rect->height = GAME_PIXEL_SIZE;
+    /*rect.dx = pos.x;
+    rect.dy = pos.y;
+    rect.width = GAME_PIXEL_SIZE;
+    rect.height = GAME_PIXEL_SIZE;*/
+    rect.dx = 0;
+    rect.dy = 0;
+    rect.width = 320;
+    rect.height = 240;
     
     //update configured area
-    ioctl(fbfd, 0x4680, rect);
+    ioctl(fbfd, 0x4680, &rect);
 }
 
 
