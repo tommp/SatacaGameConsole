@@ -21,11 +21,8 @@ void gpio_handler(int signo){
 }
 
 void update_player_direction(char buttons_now){
-    //printf("Entering update_player\n");   //TODO:: Remove
     char button_changes = buttons_now;
-    printf("Button_now: %d\n", buttons_now);   //TODO:: Remove
-    //printf("button_last: %d\n", g_buttons_last);   //TODO:: Remove
-    //printf("button_changes: %d\n", button_changes);   //TODO:: Remove
+
     //Player 1 controls
     printf("dir0: %d \n", players[0].dir); 
     if(button_changes & SW_1 ) {
@@ -33,7 +30,6 @@ void update_player_direction(char buttons_now){
         if(players[0].dir != RIGHT) {
             players[0].dir = LEFT;
         }
-        //g_running = 0; //TODO:: DEBUGGIN SHAIT, LEAVES MAIN WHILE
     }
     if(button_changes & SW_2) {
         printf("Switch 2 detected\n");   //TODO:: Remove
@@ -118,20 +114,20 @@ int gamepad_init(void){
 
 // Initialize all grid cells to zero
 void grid_init(uint8_t grid[][GRID_HEIGHT]){
-    printf("Entering grid_init\n");   //TODO:: Remove
+    printf("Initializing game grid...\t");   //TODO:: Remove
     for (int row = 0; row < GRID_HEIGHT; row++){
         for (int col = 0; col < GRID_WIDTH; col++){
             grid[col][row] = CELL_FREE;
         }
     }
-    printf("Exiting grid_init\n");   //TODO:: Remove
+    printf("Grid initialized successfully\n");   //TODO:: Remove
 }
 
 void players_init(uint8_t grid[][GRID_HEIGHT], player_t *players){
-    printf("Entering players_init\n");   //TODO:: Remove
+    printf("Initializing players...\t");   //TODO:: Remove
     for (int player = 0; player < N_PLAYERS; player++){
         players[player].pos.x = GRID_WIDTH*(player+1)/(N_PLAYERS+1);
-        players[player].pos.y = GRID_HEIGHT/2;
+        players[player].pos.y = GRID_HEIGHT-1;
         
         players[player].dir = UP;
     }
