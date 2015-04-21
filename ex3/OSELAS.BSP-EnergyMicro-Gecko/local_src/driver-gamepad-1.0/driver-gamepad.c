@@ -148,7 +148,7 @@ static void __exit driver_cleanup()
     free_irq(GPIO_ODD_IRQ_NUM, &driver_cdev);
     
     /* Release occupied memory so that it can be used by other drivers */
-    release_mem_region(GPIO_PC_BASE, GPIO_IFC - GPIO_PA_BASE);
+    release_mem_region(GPIO_PC_BASE, GPIO_IFC_OFFSET);
 }
 
 static int driver_fasync(int fd, struct file *filp, int mode){
